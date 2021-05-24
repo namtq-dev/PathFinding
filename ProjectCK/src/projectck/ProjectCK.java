@@ -36,6 +36,7 @@ public class ProjectCK {
         System.out.println("Choose the start node: ");
         int start = sc.nextInt();
         Graphs.Graph.bellmanford(start, nodes, numEdges, graph);
+        sc.close();
     }
     
 }
