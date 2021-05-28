@@ -1,10 +1,10 @@
-package containers;
+package Containers;
 
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import GraphFX.EdgeLine;
-import GraphFX.LabelNode;
 import GraphFX.VertexFX;
 import GraphFX.VirtualVertexFX;
 
@@ -12,14 +12,27 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URI;
 
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextInputDialog;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
+import java.awt.MouseInfo;
+
 public class GraphPanel extends Pane{
-    public GraphPanel() {
+    public static boolean contextMenuShowable = true;
+
+    private final TextInputDialog dialog = new TextInputDialog();
+    private Optional<String> dialogResult;
+
+    public GraphPanel(int width, int height) {
         super();
-        setMinSize(1800, 900);
-        setMaxSize(1800, 900);
+        setMinSize(width, height);
+        setMaxSize(width, height);
         loadStylesheet(null);
+        setupContextMenu();
     }
 
     private void loadStylesheet(URI cssFile) {
@@ -39,23 +52,70 @@ public class GraphPanel extends Pane{
         }
     }
 
+    private void setupContextMenu() {
+        final ContextMenu contextMenu = new ContextMenu();
+        
+        contextMenu.setAutoHide(true);
+
+        MenuItem newVertex = new MenuItem("New node");
+        newVertex.setOnAction(evt -> {
+            int x = MouseInfo.getPointerInfo().getLocation().x - 50;
+            int y = MouseInfo.getPointerInfo().getLocation().y - 50;
+            dialog.setTitle("Input label");
+            dialog.setHeaderText("what label do you want to attach to this Node?");
+            dialog.setContentText("Please enter the label here :");
+            dialog.getEditor().clear();
+
+            this.dialogResult = dialog.showAndWait();
+            
+            if (dialogResult.isPresent()) {
+                try {
+                    if (this.dialogResult.get().isEmpty()) System.out.println("No input, cancelled !");
+                    else this.addVertex(new VertexFX(x, y, this.dialogResult.get()));
+                } catch (Exception e) {
+                    System.out.println("Invalid input, try again");
+                }
+            } else {
+                System.out.println("Cancelled !");
+            }
+        });
+
+        
+
+        contextMenu.getItems().addAll(newVertex);
+
+        this.setOnMouseClicked((MouseEvent mouseEvent) -> {
+            if (contextMenuShowable)
+                if (mouseEvent.getButton() == MouseButton.SECONDARY) {
+                    contextMenu.show(this, MouseInfo.getPointerInfo().getLocation().x, MouseInfo.getPointerInfo().getLocation().y);
+                } else if (mouseEvent.getButton() == MouseButton.PRIMARY) {
+                    contextMenu.hide();
+                }
+            else {
+
+            }
+        });
+    }
+
     public void addVertex(VertexFX v) {
         this.getChildren().add(v);
         this.getChildren().add(v.getAttachedLabel());
     }
 
-    public void addEdge(EdgeLine<VertexFX, LabelNode> edge) {
+    public void addEdge(EdgeLine edge) {
         this.getChildren().add(edge);
         this.getChildren().add(edge.getAttachedArrow());
         this.getChildren().add(edge.getAttachedLabel());
     }
 
-    public void addVirtualLine(VirtualVertexFX virtualVertex, EdgeLine<VertexFX, LabelNode> virtualLine) {
+    public void addVirtualLine(VirtualVertexFX virtualVertex, EdgeLine virtualLine) {
         this.getChildren().add(virtualVertex);
         this.getChildren().add(virtualLine);
+        this.getChildren().add(virtualLine.getAttachedArrow());
     }
 
-    public void removeVirtualLine(VirtualVertexFX virtualVertex, EdgeLine<VertexFX, LabelNode> virtualLine) {
+    public void removeVirtualLine(VirtualVertexFX virtualVertex, EdgeLine virtualLine) {
+        this.getChildren().remove(virtualLine.getAttachedArrow());
         this.getChildren().remove(virtualVertex);
         this.getChildren().remove(virtualLine);
     }

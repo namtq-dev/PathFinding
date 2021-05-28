@@ -8,30 +8,25 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.shape.Line;
 import javafx.scene.transform.Rotate;
 
-public class EdgeLine<E, V> extends Line implements EdgeBase, StylableNode, LabelAttachable {
-    //private final Edge<E, V> underlyingEdge;
+public class EdgeLine extends Line implements EdgeBase, StylableNode, LabelAttachable {
 
-    private final VertexFX toVertex;
-    private final VertexFX fromVertex;
+    public final VertexFX startVertex;
+    public final VertexFX endVertex;
     private int weight;
 
     private LabelNode attachedLabel = null;
     private Arrow attachedArrow = null;
 
-    private final StyleProxy styleProxy;
+    public final StyleProxy styleProxy;
     private DoubleProperty sin;
     private DoubleProperty cos;
 
-    public EdgeLine(/*Edge<E, V> edge,*/ VertexFX fromVertex, VertexFX toVertex, int weight) {
-        System.out.println("New EdgeLine : " + fromVertex.getAttachedLabel().getText() + " - " + toVertex.getAttachedLabel().getText());
-        if(toVertex == null || fromVertex == null) {
-            throw new IllegalArgumentException("Cannot connect null vertices.");
-        }
+    public EdgeLine(VertexFX fromVertex, VertexFX toVertex, int weight) {
+        this.startVertex = fromVertex;
+        this.endVertex = toVertex;
+        this.weight = weight;
 
-        this.toVertex = toVertex;
-        this.fromVertex = fromVertex;
-
-        //this.underlyingEdge = edge;
+        System.out.println("New EdgeLine : " + this.startVertex.getAttachedLabel().getText() + " - " + this.endVertex.getAttachedLabel().getText() + ", weight = " + this.weight);
 
         styleProxy = new StyleProxy(this);
         styleProxy.addStyleClass("edge");
@@ -54,13 +49,13 @@ public class EdgeLine<E, V> extends Line implements EdgeBase, StylableNode, Labe
         this.weight = weight;
     }
 
-    public EdgeLine(VertexFX toVertex, VirtualVertexFX fromVertex) {
+    public EdgeLine(VertexFX fromVertex, VirtualVertexFX toVertex) {
         if( toVertex == null || fromVertex == null) {
             throw new IllegalArgumentException("Cannot connect null vertices.");
         }
 
-        this.toVertex = null;
-        this.fromVertex = null;
+        this.startVertex = null;
+        this.endVertex = null;
 
         styleProxy = new StyleProxy(this);
         styleProxy.addStyleClass("edge");
@@ -75,8 +70,9 @@ public class EdgeLine<E, V> extends Line implements EdgeBase, StylableNode, Labe
         this.startXProperty().bind(fromVertex.centerXProperty().add(cos.multiply(fromVertex.getRadius())));
         this.startYProperty().bind(fromVertex.centerYProperty().add(sin.multiply(fromVertex.getRadius())));
         //To
-        this.endXProperty().bind(toVertex.centerXProperty().subtract(cos.multiply(toVertex.getRadius())));
-        this.endYProperty().bind(toVertex.centerYProperty().subtract(sin.multiply(toVertex.getRadius())));
+        this.endXProperty().bind(toVertex.centerXProperty());
+        this.endYProperty().bind(toVertex.centerYProperty());
+        attachArrow(new Arrow(7));
     }
 
     @Override
@@ -107,11 +103,6 @@ public class EdgeLine<E, V> extends Line implements EdgeBase, StylableNode, Labe
     public LabelNode getAttachedLabel() {
         return attachedLabel;
     }
-
-    // @Override
-    // public Edge<E, V> getUnderlyingEdge() {
-    //     return underlyingEdge;
-    // }
 
     @Override
     public void attachArrow(Arrow arrow) {

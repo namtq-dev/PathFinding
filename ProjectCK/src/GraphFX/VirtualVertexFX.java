@@ -1,9 +1,8 @@
 package GraphFX;
 
-import javafx.scene.shape.Circle;
+public class VirtualVertexFX extends VertexFX{
 
-public class VirtualVertexFX extends Circle{
     public VirtualVertexFX(double x, double y) {
-        super(x, y, 0);
+        super(x, y);
     }
 }

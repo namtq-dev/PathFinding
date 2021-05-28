@@ -1,4 +1,5 @@
 package interfaces;
+
 public interface StylableNode {
     public void setStyle(String css);
 
