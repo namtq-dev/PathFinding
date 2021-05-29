@@ -11,7 +11,8 @@ import java.awt.MouseInfo;
 import java.util.Optional;
 
 import Containers.GraphPanel;
-import interfaces.StylableNode;
+import Graphs.Node;
+import Interfaces.StylableNode;
 
 public class VertexFX extends Circle implements StylableNode {
     private static boolean isDragging = false;
@@ -35,6 +36,7 @@ public class VertexFX extends Circle implements StylableNode {
 
     private final TextInputDialog dialog = new TextInputDialog();
     private Optional<String> dialogResult;
+    private Node node;
 
     public VertexFX(double x, double y, String label) {
         this(x, y, 20d, label);
@@ -48,6 +50,7 @@ public class VertexFX extends Circle implements StylableNode {
         styleProxy.setStyleClass("vertex");
         attachedLabel.setStyleClass("vertex-label");
 
+        this.node = new Node(1, 1, "x");
         enableDrag();
         setupContextMenu();
     }
@@ -253,5 +256,13 @@ public class VertexFX extends Circle implements StylableNode {
     @Override
     public boolean removeStyleClass(String classname) {
         return this.styleProxy.removeStyleClass(classname);
+    }
+
+    public boolean isEquals(VertexFX vertex) {
+        return (this.getNode() == vertex.getNode());
+    }
+
+    public Node getNode() {
+        return this.node;
     }
 }

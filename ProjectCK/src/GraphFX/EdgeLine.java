@@ -1,8 +1,8 @@
 package GraphFX;
 
-import interfaces.EdgeBase;
-import interfaces.LabelAttachable;
-import interfaces.StylableNode;
+import Interfaces.EdgeBase;
+import Interfaces.LabelAttachable;
+import Interfaces.StylableNode;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.shape.Line;

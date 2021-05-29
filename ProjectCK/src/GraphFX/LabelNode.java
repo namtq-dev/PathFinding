@@ -1,6 +1,6 @@
 package GraphFX;
 
-import interfaces.StylableNode;
+import Interfaces.StylableNode;
 import javafx.scene.text.Text;
 
 public class LabelNode extends Text implements StylableNode{

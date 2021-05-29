@@ -1,5 +1,7 @@
 package Containers;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,11 +26,16 @@ import java.awt.MouseInfo;
 public class GraphPanel extends Pane{
     public static boolean contextMenuShowable = true;
 
+    private List<EdgeLine> edges;
+    private List<VertexFX> vertices; 
+
     private final TextInputDialog dialog = new TextInputDialog();
     private Optional<String> dialogResult;
 
     public GraphPanel(int width, int height) {
         super();
+        edges = new ArrayList<EdgeLine>();
+        vertices = new ArrayList<VertexFX>();
         setMinSize(width, height);
         setMaxSize(width, height);
         loadStylesheet(null);
@@ -98,11 +105,13 @@ public class GraphPanel extends Pane{
     }
 
     public void addVertex(VertexFX v) {
+        vertices.add(v);
         this.getChildren().add(v);
         this.getChildren().add(v.getAttachedLabel());
     }
 
     public void addEdge(EdgeLine edge) {
+        edges.add(edge);
         this.getChildren().add(edge);
         this.getChildren().add(edge.getAttachedArrow());
         this.getChildren().add(edge.getAttachedLabel());
@@ -118,5 +127,14 @@ public class GraphPanel extends Pane{
         this.getChildren().remove(virtualLine.getAttachedArrow());
         this.getChildren().remove(virtualVertex);
         this.getChildren().remove(virtualLine);
+    }
+
+    public EdgeLine getEdge(VertexFX startVertex, VertexFX endVertex) {
+        for (int i = 0; i < this.edges.size(); i++) {
+            if (this.edges.get(i).startVertex.isEquals(startVertex) && this.edges.get(i).endVertex.isEquals(endVertex)) return this.edges.get(i);
+        }
+
+        System.out.println("No EdgeLine found, the program maybe run wrong !");
+        return this.edges.get(1);
     }
 }
