@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch Main",
+            "request": "launch",
+            "mainClass": "Graph.com.mycompany.projectoop.Main",
+            "projectName": "ProjectCK_850d90c5"
+        },
+        {
+            "type": "java",
             "name": "Launch TestAnimation",
             "request": "launch",
             "mainClass": "TestAnimation",

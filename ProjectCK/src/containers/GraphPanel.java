@@ -87,8 +87,6 @@ public class GraphPanel extends Pane{
             }
         });
 
-        
-
         contextMenu.getItems().addAll(newVertex);
 
         this.setOnMouseClicked((MouseEvent mouseEvent) -> {
@@ -136,5 +134,13 @@ public class GraphPanel extends Pane{
 
         System.out.println("No EdgeLine found, the program maybe run wrong !");
         return this.edges.get(1);
+    }
+
+    public void Reset() {
+        for (int i = 0; i < this.vertices.size(); i++) this.vertices.get(i).setStyleClass("vertex");
+        for (int i = 0; i < this.edges.size(); i++) {
+            this.edges.get(i).setStyleClass("edge");
+            this.edges.get(i).getAttachedArrow().setStyleClass("arrow");
+        }
     }
 }

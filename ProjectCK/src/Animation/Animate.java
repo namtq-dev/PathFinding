@@ -6,6 +6,11 @@ import Containers.GraphPanel;
 import Containers.SpeedControlPane;
 import GraphFX.EdgeLine;
 import GraphFX.VertexFX;
+import UIControls.ResetButton;
+import UIControls.StopButton;
+import UIControls.PauseButton;
+import UIControls.ContinueButton;
+
 import javafx.animation.Animation;
 import javafx.animation.FillTransition;
 import javafx.animation.SequentialTransition;
@@ -13,6 +18,8 @@ import javafx.animation.StrokeTransition;
 import javafx.application.Platform;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.paint.Color;
@@ -22,11 +29,11 @@ public class Animate {
     private static boolean isInited = false;
     private static DoubleProperty speed = null;
 
-    public static void playAnimation(GraphPanel graphview, Animation animation, List<VertexFX> result) {
-        playAnimation(graphview, animation, result != null);
+    public static void playAnimation(GraphPanel graphview, ResetButton resetBtn, PauseButton pauseButton, ContinueButton continueButton, StopButton stopButton, Animation animation, List<VertexFX> result) {
+        playAnimation(graphview, resetBtn, pauseButton, continueButton, stopButton, animation, result != null);
     }
 
-    public static void playAnimation(GraphPanel graphview, Animation animation, boolean isShortestPathFound) {
+    public static void playAnimation(GraphPanel graphview, ResetButton resetBtn, PauseButton pauseButton, ContinueButton continueButton, StopButton stopButton, Animation animation, boolean isShortestPathFound) {
         graphview.setDisable(true);
         
         String message1;
@@ -34,7 +41,10 @@ public class Animate {
         else message1 = "Cannot find shortest path !";
         
         animation.setOnFinished(evt -> {
-            graphview.setDisable(false);
+            resetBtn.setVisible(true);
+            pauseButton.setVisible(false);
+            continueButton.setVisible(false);
+            stopButton.setVisible(false);
             Alert alert = new Alert(isShortestPathFound ? AlertType.INFORMATION : AlertType.WARNING);
             alert.setTitle("Result");
             alert.setHeaderText("Results :");
@@ -180,5 +190,39 @@ public class Animate {
         stroke.setShape(edge.getAttachedArrow());
 
         return stroke;
+    }
+
+
+    public static void bindControlButtons(Animation animation, GraphPanel graphview, PauseButton pauseButton, ContinueButton continueButton, StopButton stopButton) {
+        pauseButton.setVisible(true);
+        continueButton.setVisible(true);
+        stopButton.setVisible(true);
+
+        pauseButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                animation.pause();
+            }
+        });
+
+        continueButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                animation.play();
+            }
+        });
+
+        stopButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                stopButton.setVisible(false);
+                continueButton.setVisible(false);
+                pauseButton.setVisible(false);
+
+                animation.stop();
+                graphview.Reset();
+                graphview.setDisable(false);
+            }
+        });
     }
 }

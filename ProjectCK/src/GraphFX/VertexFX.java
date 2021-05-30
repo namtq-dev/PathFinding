@@ -80,7 +80,7 @@ public class VertexFX extends Circle implements StylableNode {
                 System.out.println("Cancelled !");
             }
         });
-        
+
         run_Dijkstra.setOnAction(evt -> {
             System.out.println("Execute Dijkstra");
         });
