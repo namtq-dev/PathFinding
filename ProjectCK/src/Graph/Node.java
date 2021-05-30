@@ -1,19 +1,26 @@
-package com.mycompany.projectoop;
+package Graph;
+
+import GraphFX.VertexFX;
 
 public abstract class Node implements Comparable<Node>{
 
-    protected final String name;
+    protected static int nodeID;
+    
+    protected final int id;
     protected double cost;
     protected Node predecessor;
+    protected VertexFX nodeFX;
 
-    public Node(String name, double cost, Node predecessor) {
-        this.name = name;
+    public Node(double cost, Node predecessor, VertexFX nodeFX) {
+        this.id = nodeID;
         this.cost = cost;
         this.predecessor = predecessor;
+        this.nodeFX = nodeFX;
+        ++nodeID;
     }
 
-    public String getName() {
-        return name;
+    public int getId() {
+        return id;
     }
 
     public double getCost() {
@@ -32,9 +39,17 @@ public abstract class Node implements Comparable<Node>{
         this.predecessor = predecessor;
     }
 
+    public VertexFX getNodeFX() {
+        return nodeFX;
+    }
+
     @Override
     public int compareTo(Node t) {
-        return this.name.compareTo(t.getName());
+        int compare = Double.compare(this.cost, t.cost);
+        if (compare == 0) {
+            compare = this.id - t.id;
+        }
+        return compare;
     }
 
 }
