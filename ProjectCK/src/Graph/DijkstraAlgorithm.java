@@ -24,29 +24,22 @@ public class DijkstraAlgorithm extends ShortestPathSolver {
         queue.add(sourceWrapper);
         
         while (!queue.isEmpty()) {
-
-            Step step = new Step();
             
-            NodeWrapper currentNodeWrapper = queue.pollFirst();
-       
+            NodeWrapper currentNodeWrapper = queue.pollFirst();       
             Node currentNode = currentNodeWrapper.getNode();
             
             visitedNodes.add(currentNode);
             
-            step.setCurrentNode(currentNode);
-            step.setCurrentNodeMarked(true);
-
             // Have we reached the target? --> Build the path
             if (currentNode.equals(target)) {
                 buildPath(currentNodeWrapper);
-                
-                step.setCheckedEdges(null);
-                step.setNewCheckedCostValues(null);
-                steps.add(step);
-                
                 return;
             }
-
+            
+            Step step = new Step();
+            step.setCurrentNode(currentNode);
+            step.setCurrentNodeMarked(true);
+            
             //Get adjacent edges
             Set<Edge> adjacentEdges = graph.getAdjacentEdges(currentNode);
  
