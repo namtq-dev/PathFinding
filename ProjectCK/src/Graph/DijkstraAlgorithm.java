@@ -11,93 +11,99 @@ public class DijkstraAlgorithm extends ShortestPathSolver {
     * @param graph the graph
     * @param source the source node
     * @param target the target node
-    * @return the shortest path; or {@code null} if no path was found
     */
+    @Override
     public void run(Graph graph, Node source, Node target) {
         
-        TreeSet<Node> queue = new TreeSet<>();
-        Set<Node> shortestPathFound = new HashSet<>();
-
-// tao List<Step> steps = new List()
-        
+        Map<Node, NodeWrapper> nodeWrappers = new HashMap<>();
+        TreeSet<NodeWrapper> queue = new TreeSet<>();
+        Set<Node> visitedNodes = new HashSet<>();
+    
         // Add source to queue
-        source.setCost(0);
-        source.setPredecessor(null);
-        queue.add(source);
-
+        NodeWrapper sourceWrapper = new NodeWrapper(source, 0, null);
+        nodeWrappers.put(source, sourceWrapper);
+        queue.add(sourceWrapper);
+        
         while (!queue.isEmpty()) {
-// s = new Step( currn)            
-            Node currentNode = queue.pollFirst();
-// s.setCurrNode()            
-            shortestPathFound.add(currentNode);
 
-            // Have we reached the target? --> Build and return the path
-            if (currentNode.equals(target))
-                return buildPath(currentNode);
+            Step step = new Step();
+            
+            NodeWrapper currentNodeWrapper = queue.pollFirst();
+       
+            Node currentNode = currentNodeWrapper.getNode();
+            
+            visitedNodes.add(currentNode);
+            
+            step.setCurrentNode(currentNode);
+            step.setCurrentNodeMarked(true);
 
-            //Get adjacent nodes
-            Set<Node> neighbors = graph.adjacentNodes(currentNode);
- 
-            // Iterate over all neighbors
-            for (Node neighbor : neighbors) {
-//s.getEdges().addEdge()                
-                //Ignore neighbor if it is startNode and currentNode is endNode
-                if (graph.edgeValue(currentNode, neighbor).isEmpty())
-                    continue;
+            // Have we reached the target? --> Build the path
+            if (currentNode.equals(target)) {
+                buildPath(currentNodeWrapper);
                 
-                // Ignore neighbor if shortest path already found
-                if (shortestPathFound.contains(neighbor))
+                step.setCheckedEdges(null);
+                step.setNewCheckedCostValues(null);
+                steps.add(step);
+                
+                return;
+            }
+
+            //Get adjacent edges
+            Set<Edge> adjacentEdges = graph.getAdjacentEdges(currentNode);
+ 
+            // Iterate over all adjacent edges
+            for (Edge adjacentEdge : adjacentEdges) {
+         
+                Node adjacentNode = adjacentEdge.getEndNode();
+             
+                // Ignore adjacent node if shortest path already found
+                if (visitedNodes.contains(adjacentNode))
                     continue;
 
-                // Calculate total cost from start to neighbor via current node
-                double cost = graph.edgeValue(currentNode, neighbor).get();
-                double newCost = currentNode.getCost() + cost;
+                step.getCheckedEdges().add(adjacentEdge);
+                
+                // Calculate total cost from start to adjacent node via current node
+                double newCost = currentNodeWrapper.getCost() + graph.getEdgeValue(adjacentEdge);
 
-                // Neighbor not yet discovered?
-                if (!queue.contains(neighbor)) {
-                    neighbor.setCost(newCost);
-                    neighbor.setPredecessor(currentNode);
- // s.getnewnodevalues                   
-                    queue.add(neighbor);
-                }
+                // Adjacent node not yet discovered?
+                NodeWrapper adjacentNodeWrapper = nodeWrappers.get(adjacentNode);
+                if (adjacentNodeWrapper == null) {
+                    adjacentNodeWrapper = new NodeWrapper(adjacentNode, newCost, currentNodeWrapper);
+                    nodeWrappers.put(adjacentNode, adjacentNodeWrapper);
+                    queue.add(adjacentNodeWrapper);
+                    
+                    step.getNewCheckedCostValues().add(newCost);
+                }                   
 
                 // Neighbor discovered, but total cost via current node is lower?
                 // --> Update cost and predecessor
-                else if (newCost < neighbor.getCost()) {
+                else if (newCost < adjacentNodeWrapper.getCost()) {
                     
                     // The position in the TreeSet won't change automatically;
                     // we have to remove and reinsert the node.
                     // Because TreeSet uses compareTo() to identity a node to remove,
                     // we have to remove it *before* we change cost!
-                    queue.remove(neighbor);
-                    neighbor.setCost(newCost);
-                    neighbor.setPredecessor(currentNode);
-                    queue.add(neighbor);
+                    queue.remove(adjacentNodeWrapper);
+
+                    adjacentNodeWrapper.setCost(newCost);
+                    adjacentNodeWrapper.setPredecessor(currentNodeWrapper);
+
+                    queue.add(adjacentNodeWrapper);
+                    
+                    step.getNewCheckedCostValues().add(newCost);
                 }
+                
+                else {
+                    step.getNewCheckedCostValues().add(adjacentNodeWrapper.getCost());
+                }
+                
             }
-            //s.setvisitd(currnode)
-           // steps.add(s)
+            
+            steps.add(step);
         }
 
         // All nodes were visited but the target was not found
-        return null;
+        result = null;
     }
 
-    private static List<Node> buildPath(Node node) {
-        
-        List<Node> path = new ArrayList<>();
-       
-        while (node != null) {
-            path.add(node);
-            node = node.getPredecessor();
-        }
-        
-        Collections.reverse(path);
-        
-        return path;
-    }
-
-
-  
-    
 }

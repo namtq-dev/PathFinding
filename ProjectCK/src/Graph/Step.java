@@ -4,41 +4,49 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Step {
-
+    
     private Node currentNode;
     boolean currentNodeMarked;
     List<Edge> checkedEdges;
-    List<Double> newCheckedNodeValues;
+    List<Double> newCheckedCostValues;
 
     public Step() {
         currentNode = null;
         currentNodeMarked = false;
-        checkedEdges = new ArrayList<Edge>();
-        newCheckedNodeValues = new ArrayList<Double>();
+        checkedEdges = new ArrayList<>();
+        newCheckedCostValues = new ArrayList<>();
     }
-
+    
     public Node getCurrentNode() {
         return currentNode;
     }
 
-    public void setCurrentNode(Node node) {
-        this.currentNode = node;
+    public void setCurrentNode(Node currentNode) {
+        this.currentNode = currentNode;
     }
 
     public boolean isCurrentNodeMarked() {
         return currentNodeMarked;
     }
 
-    public void setCurrentNodeMarked() {
-        this.currentNodeMarked = true;
+    public void setCurrentNodeMarked(boolean currentNodeMarked) {
+        this.currentNodeMarked = currentNodeMarked;
     }
 
     public List<Edge> getCheckedEdges() {
         return checkedEdges;
     }
 
-    public List<Double> getNewCheckedNodeValues() {
-        return newCheckedNodeValues;
+    public void setCheckedEdges(List<Edge> checkedEdges) {
+        this.checkedEdges = checkedEdges;
+    }
+
+    public List<Double> getNewCheckedCostValues() {
+        return newCheckedCostValues;
+    }
+
+    public void setNewCheckedCostValues(List<Double> newCheckedCostValues) {
+        this.newCheckedCostValues = newCheckedCostValues;
     }
 
 }

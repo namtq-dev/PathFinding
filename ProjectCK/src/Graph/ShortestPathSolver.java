@@ -1,20 +1,29 @@
 package Graph;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
 public abstract class ShortestPathSolver {
     
-    protected List<Step> steps;
+    protected List<Step> steps ;
     protected List<Node> result;
     
-    public abstract void run(Graph graph, Node source, Node target);
-    public HashSet<NodeWrapper> initialize(Graph graph, Node source, Node target) {
-        HashSet<NodeWrapper> nodeWrappers = new HashSet<>();
-        ///
-        ///
-        ///
-        return nodeWrappers;
+    public ShortestPathSolver() {
+        steps = new ArrayList<>();
+        result = new ArrayList<>();
     }
     
+    public abstract void run(Graph graph, Node source, Node target);
+    
+    public void buildPath(NodeWrapper nodeWrapper) {
+        
+        while (nodeWrapper != null) {
+            result.add(nodeWrapper.getNode());
+            nodeWrapper = nodeWrapper.getPredecessor();
+        }
+        
+        Collections.reverse(result);  
+    }
 }

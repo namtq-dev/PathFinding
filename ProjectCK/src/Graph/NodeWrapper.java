@@ -4,9 +4,9 @@ public class NodeWrapper implements Comparable<NodeWrapper> {
     
     protected final Node node;
     protected double cost;
-    protected Node predecessor;
+    protected NodeWrapper predecessor;
     
-    public NodeWrapper(Node node, double cost, Node predecessor) {
+    public NodeWrapper(Node node, double cost, NodeWrapper predecessor) {
         this.node = node;
         this.cost = cost;
         this.predecessor = predecessor;
@@ -24,11 +24,11 @@ public class NodeWrapper implements Comparable<NodeWrapper> {
         this.cost = cost;
     }
 
-    public Node getPredecessor() {
+    public NodeWrapper getPredecessor() {
         return predecessor;
     }
 
-    public void setPredecessor(Node predecessor) {
+    public void setPredecessor(NodeWrapper predecessor) {
         this.predecessor = predecessor;
     }
 

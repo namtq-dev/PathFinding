@@ -4,10 +4,10 @@ import GraphFX.VertexFX;
 
 public class Node implements Comparable<Node>{
 
-    protected static int nodeID;
+    private static int nodeID;
     
-    protected final int id;
-    protected final VertexFX nodeFX;
+    private final int id;
+    private final VertexFX nodeFX;
 
     public Node(VertexFX nodeFX) {
         this.id = nodeID;

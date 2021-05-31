@@ -5,7 +5,7 @@ public class AStarNodeWrapper extends NodeWrapper {
     private final double minRemainingCost;
     private double costSum;
     
-    public AStarNodeWrapper(Node node, double cost, Node predecessor, 
+    public AStarNodeWrapper(Node node, double cost, NodeWrapper predecessor, 
                                                         double minRemainingCost) {
         
         super(node, cost, predecessor);
