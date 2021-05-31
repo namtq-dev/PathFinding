@@ -11,9 +11,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 public class SpeedControlPane extends Slider {
-    private static final double MIN_SPEED = 0;
-    private static final double MAX_SPEED = 5;
-    private static final double SCROLL_DELTA = 0.5;
+    private static final double MIN_SPEED = 0.1;
+    private static final double MAX_SPEED = 3;
+    private static final double SCROLL_DELTA = 0.25;
 
     private final Text label;
 
@@ -21,7 +21,7 @@ public class SpeedControlPane extends Slider {
 
     public SpeedControlPane(int transLateX, int transLateY) {
 
-        super(MIN_SPEED, MAX_SPEED, MIN_SPEED);
+        super(MIN_SPEED, MAX_SPEED, 1);
         this.setOrientation(Orientation.VERTICAL);
 
         this.setShowTickMarks(true);

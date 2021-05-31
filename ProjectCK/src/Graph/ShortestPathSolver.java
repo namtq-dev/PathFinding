@@ -26,4 +26,12 @@ public abstract class ShortestPathSolver {
         
         Collections.reverse(result);  
     }
+
+    public List<Step> getSteps() {
+        return steps;
+    }
+
+    public List<Node> getResult() {
+        return result;
+    }
 }

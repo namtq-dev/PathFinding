@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import Graph.Graph;
 import GraphFX.EdgeLine;
 import GraphFX.VertexFX;
 import GraphFX.VirtualVertexFX;
@@ -28,6 +29,7 @@ public class GraphPanel extends Pane{
 
     private List<EdgeLine> edges;
     private List<VertexFX> vertices; 
+    private Graph graph;
 
     private final TextInputDialog dialog = new TextInputDialog();
     private Optional<String> dialogResult;
@@ -36,6 +38,7 @@ public class GraphPanel extends Pane{
         super();
         edges = new ArrayList<EdgeLine>();
         vertices = new ArrayList<VertexFX>();
+        graph = new Graph();
         setMinSize(width, height);
         setMaxSize(width, height);
         loadStylesheet(null);
@@ -104,6 +107,7 @@ public class GraphPanel extends Pane{
 
     public void addVertex(VertexFX v) {
         vertices.add(v);
+        graph.addNode(v.getNode());
         this.getChildren().add(v);
         this.getChildren().add(v.getAttachedLabel());
         this.getChildren().add(v.getValueLabel());
@@ -111,6 +115,7 @@ public class GraphPanel extends Pane{
 
     public void addEdge(EdgeLine edge) {
         edges.add(edge);
+        graph.addEdge(edge.getEdge());
         this.getChildren().add(edge);
         this.getChildren().add(edge.getAttachedArrow());
         this.getChildren().add(edge.getAttachedLabel());
@@ -146,5 +151,9 @@ public class GraphPanel extends Pane{
             this.edges.get(i).setStyleClass("edge");
             this.edges.get(i).getAttachedArrow().setStyleClass("arrow");
         }
+    }
+
+    public Graph getGraph() {
+        return graph;
     }
 }

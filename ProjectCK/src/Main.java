@@ -1,6 +1,7 @@
 import Containers.GraphPanel;
 import Containers.GraphScene;
 import Containers.SpeedControlPane;
+import UIControls.Buttons;
 import UIControls.ContinueButton;
 import UIControls.PauseButton;
 import UIControls.ResetButton;
@@ -22,6 +23,7 @@ public class Main extends Application{
         ContinueButton continueButton = new ContinueButton(145, 5);
         StopButton stopButton = new StopButton(215, 5);
         root.getChildren().addAll(resetButton, pauseButton, continueButton, stopButton);
+        Buttons.bindButtons(resetButton, pauseButton, continueButton, stopButton);
 
         SpeedControlPane speedControlPane = new SpeedControlPane(20, 75);
         root.getChildren().addAll(speedControlPane, speedControlPane.getAttachedLabel());

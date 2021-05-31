@@ -1,6 +1,7 @@
 package GraphFX;
 
 import javafx.scene.shape.Circle;
+import javafx.animation.SequentialTransition;
 import javafx.scene.Cursor;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
@@ -10,9 +11,14 @@ import javafx.scene.input.MouseEvent;
 import java.awt.MouseInfo;
 import java.util.Optional;
 
+import Animation.Animate;
 import Containers.GraphPanel;
+import Graph.DijkstraAlgorithm;
 import Graph.Node;
+import Graph.ShortestPathContext;
+import Graph.ShortestPathSolver;
 import Interfaces.StylableNode;
+import UIControls.Buttons;
 
 public class VertexFX extends Circle implements StylableNode {
     private static boolean isDragging = false;
@@ -85,6 +91,13 @@ public class VertexFX extends Circle implements StylableNode {
 
         run_Dijkstra.setOnAction(evt -> {
             System.out.println("Execute Dijkstra");
+            ShortestPathContext shortestPathContext = new ShortestPathContext();
+            shortestPathContext.setSolver(new DijkstraAlgorithm());
+            ShortestPathSolver kq = shortestPathContext.solve(p.getGraph(), this.getNode(), currVertex.getNode());
+
+            SequentialTransition animation = Animate.makeAnimation(kq.getSteps(), kq.getResult());
+            Animate.bindControlButtons(animation, p, Buttons.getBindPauseButton(), Buttons.getBindContinueButton(), Buttons.getBindStopButton());
+            Animate.playAnimation(p, Buttons.getBindResetButton(), Buttons.getBindPauseButton(), Buttons.getBindContinueButton(), Buttons.getBindStopButton(), animation, kq.getResult());
         });
 
         run_BellmanFord.setOnAction(evt -> {
@@ -232,7 +245,7 @@ public class VertexFX extends Circle implements StylableNode {
 
     public void attachLabel(LabelNode label) {
         this.attachedLabel = label;
-        this.valueLabel = new LabelNode("x");
+        this.valueLabel = new LabelNode("∞");
 
         label.xProperty().bind(centerXProperty().subtract(label.getLayoutBounds().getWidth() / 1.5));
         label.yProperty().bind(centerYProperty().add(getRadius() + label.getLayoutBounds().getHeight()));
