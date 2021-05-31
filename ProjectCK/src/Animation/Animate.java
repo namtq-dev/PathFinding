@@ -84,7 +84,6 @@ public class Animate {
         setAnimateBeingVisited(listAnimation, steps.get(0).getCurrentNode().getNodeFX(), 0f);
         for (int i = 0; i < steps.size()-1; i++) {
             setAnimateChecking(listAnimation, steps.get(i).getCurrentNode().getNodeFX());
-            System.out.println(steps.get(i).getCheckedEdges());
             for (int j = 0; j < steps.get(i).getCheckedEdges().size(); j++) {
                 setAnimateBeingVisited(listAnimation, steps.get(i).getCheckedEdges().get(j).getEdgeFX());
                 setAnimateBeingVisited(listAnimation, steps.get(i).getCheckedEdges().get(j).getEdgeFX().endVertex, steps.get(i).getNewCheckedCostValues().get(j));

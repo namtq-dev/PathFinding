@@ -18,7 +18,7 @@ public class EdgeLine extends Line implements EdgeBase, StylableNode, LabelAttac
 
     public final VertexFX startVertex;
     public final VertexFX endVertex;
-    private int weight;
+    private double weight;
     private Edge edge;
 
     private LabelNode attachedLabel = null;
@@ -32,13 +32,11 @@ public class EdgeLine extends Line implements EdgeBase, StylableNode, LabelAttac
     private final MenuItem delete = new MenuItem("Delete");
     private GraphPanel p = null;
 
-    public EdgeLine(VertexFX fromVertex, VertexFX toVertex, int weight) {
+    public EdgeLine(VertexFX fromVertex, VertexFX toVertex, double weight) {
         this.startVertex = fromVertex;
         this.endVertex = toVertex;
         this.weight = weight;
         this.edge = new Edge(fromVertex.getNode(), toVertex.getNode(), weight, this);
-
-        System.out.println("New EdgeLine : " + this.startVertex.getAttachedLabel().getText() + " - " + this.endVertex.getAttachedLabel().getText() + ", weight = " + this.weight);
 
         styleProxy = new StyleProxy(this);
         styleProxy.addStyleClass("edge");

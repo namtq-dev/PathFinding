@@ -116,7 +116,6 @@ public class GraphPanel extends Pane{
     public void removeVertex(VertexFX v) {
         for (int i = this.edges.size() - 1; i >= 0; i--) {
             if (this.edges.get(i).startVertex.isEquals(v) || this.edges.get(i).endVertex.isEquals(v)) {
-                System.out.println(this.edges.get(i));
                 this.removeEdge(edges.get(i));
             }
         }

@@ -3,9 +3,11 @@ package GraphFX;
 import javafx.scene.shape.Circle;
 import javafx.animation.SequentialTransition;
 import javafx.scene.Cursor;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 
 import java.awt.MouseInfo;
@@ -13,6 +15,8 @@ import java.util.Optional;
 
 import Animation.Animate;
 import Containers.GraphPanel;
+import Graph.AStarAlgorithm;
+import Graph.BellmanFordAlgorithm;
 import Graph.DijkstraAlgorithm;
 import Graph.Node;
 import Graph.ShortestPathContext;
@@ -88,7 +92,7 @@ public class VertexFX extends Circle implements StylableNode {
             if (dialogResult.isPresent()) {
                 try {
                     if (this.dialogResult.get().isEmpty()) System.out.println("No input, cancelled !");
-                    else p.addEdge(new EdgeLine(this, currVertex, Integer.parseInt(this.dialogResult.get())));
+                    else p.addEdge(new EdgeLine(this, currVertex, Double.parseDouble(this.dialogResult.get())));
                 } catch (NumberFormatException nfe) {
                     System.out.println("Invalid input, try again");
                 }
@@ -99,8 +103,29 @@ public class VertexFX extends Circle implements StylableNode {
 
         run_Dijkstra.setOnAction(evt -> {
             System.out.println("Execute Dijkstra");
+            System.out.println(p.getGraph().hasNegativeWeight());
+            if (p.getGraph().hasNegativeWeight()) {
+                Alert alert = new Alert(AlertType.WARNING);
+                alert.setTitle("Cannot Execute Algorithm");
+                alert.setHeaderText("EXECUTE FAILED");
+                alert.setContentText("The graph has negative weight edge !");
+
+                alert.showAndWait();
+            } else {
+                ShortestPathContext shortestPathContext = new ShortestPathContext();
+                shortestPathContext.setSolver(new DijkstraAlgorithm());
+                ShortestPathSolver kq = shortestPathContext.solve(p.getGraph(), this.getNode(), currVertex.getNode());
+
+                SequentialTransition animation = Animate.makeAnimation(kq.getSteps(), kq.getResult());
+                Animate.bindControlButtons(animation, p, Buttons.getBindPauseButton(), Buttons.getBindContinueButton(), Buttons.getBindStopButton());
+                Animate.playAnimation(p, Buttons.getBindResetButton(), Buttons.getBindPauseButton(), Buttons.getBindContinueButton(), Buttons.getBindStopButton(), animation, kq.getResult());
+            }
+        });
+
+        run_BellmanFord.setOnAction(evt -> {
+            System.out.println("Execute BellmanFord");
             ShortestPathContext shortestPathContext = new ShortestPathContext();
-            shortestPathContext.setSolver(new DijkstraAlgorithm());
+            shortestPathContext.setSolver(new BellmanFordAlgorithm());
             ShortestPathSolver kq = shortestPathContext.solve(p.getGraph(), this.getNode(), currVertex.getNode());
 
             SequentialTransition animation = Animate.makeAnimation(kq.getSteps(), kq.getResult());
@@ -108,12 +133,16 @@ public class VertexFX extends Circle implements StylableNode {
             Animate.playAnimation(p, Buttons.getBindResetButton(), Buttons.getBindPauseButton(), Buttons.getBindContinueButton(), Buttons.getBindStopButton(), animation, kq.getResult());
         });
 
-        run_BellmanFord.setOnAction(evt -> {
-            System.out.println("Execute BellmanFord");
-        });
-
         run_AStar.setOnAction(evt -> {
             System.out.println("Execute AStar");
+            System.out.println("Execute BellmanFord");
+            ShortestPathContext shortestPathContext = new ShortestPathContext();
+            shortestPathContext.setSolver(new AStarAlgorithm());
+            ShortestPathSolver kq = shortestPathContext.solve(p.getGraph(), this.getNode(), currVertex.getNode());
+
+            SequentialTransition animation = Animate.makeAnimation(kq.getSteps(), kq.getResult());
+            Animate.bindControlButtons(animation, p, Buttons.getBindPauseButton(), Buttons.getBindContinueButton(), Buttons.getBindStopButton());
+            Animate.playAnimation(p, Buttons.getBindResetButton(), Buttons.getBindPauseButton(), Buttons.getBindContinueButton(), Buttons.getBindStopButton(), animation, kq.getResult());
         });
 
         contextMenu.getItems().addAll(newVertex, run_Dijkstra, run_BellmanFord, run_AStar);
