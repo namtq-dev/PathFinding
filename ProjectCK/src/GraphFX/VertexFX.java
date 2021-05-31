@@ -41,6 +41,9 @@ public class VertexFX extends Circle implements StylableNode {
     private final MenuItem run_BellmanFord = new MenuItem("Execute BellmanFord");
     private final MenuItem run_AStar = new MenuItem("Execute AStar");
 
+    private final ContextMenu deleteOption = new ContextMenu();
+    private final MenuItem delete = new MenuItem("Delete");
+
     private final TextInputDialog dialog = new TextInputDialog();
     private Optional<String> dialogResult;
     private Node node;
@@ -61,6 +64,11 @@ public class VertexFX extends Circle implements StylableNode {
         this.node = new Node(this);
         enableDrag();
         setupContextMenu();
+        setupDeleteOption();
+        this.setOnContextMenuRequested(evt -> {
+            if (isReadyingToCreateEdge) isReadyingToCreateEdge = false;
+            else  deleteOption.show(this, MouseInfo.getPointerInfo().getLocation().x, MouseInfo.getPointerInfo().getLocation().y);
+        });
     }
 
     public VertexFX(double x, double y) {               //Constructor for VirtualVertexFX
@@ -111,6 +119,13 @@ public class VertexFX extends Circle implements StylableNode {
         contextMenu.getItems().addAll(newVertex, run_Dijkstra, run_BellmanFord, run_AStar);
     }
 
+    private void setupDeleteOption() {
+        delete.setOnAction(evt -> {
+            p.removeVertex(this);
+        });
+
+        deleteOption.getItems().add(delete);
+    }
 
     private class PointVector {
         double x, y;
@@ -124,7 +139,6 @@ public class VertexFX extends Circle implements StylableNode {
     private void enableDrag() {
         final PointVector dragDelta = new PointVector(0, 0);
         setOnMousePressed((MouseEvent mouseEvent) -> {
-            System.out.println("Pressed VertexFX : " + this.attachedLabel.getText());
             if (mouseEvent.isPrimaryButtonDown()) {
                 dragDelta.x = getCenterX() - mouseEvent.getX();
                 dragDelta.y = getCenterY() - mouseEvent.getY();
@@ -143,23 +157,21 @@ public class VertexFX extends Circle implements StylableNode {
                 isRightDragging = true;
                 mouseEvent.consume();
             }
-
         });
 
         setOnMouseReleased((MouseEvent mouseEvent) -> {
-            System.out.println("Released VertexFX : " + this.attachedLabel.getText());
             getScene().setCursor(Cursor.HAND);
             isDragging = false;
+
             if (isRightDragging) {
                 isRightDragging = false;
                 p.removeVirtualLine(virtualVertex, virtualLine);
                 if (isReadyingToCreateEdge) {
                     if (currVertex != this) contextMenu.show(this, MouseInfo.getPointerInfo().getLocation().x, MouseInfo.getPointerInfo().getLocation().y);
-                    isReadyingToCreateEdge = false;
+                    //isReadyingToCreateEdge = false;
                 }
             }
             this.styleProxy.setStyleClass("vertex");
-
             mouseEvent.consume();
         });
 
@@ -188,7 +200,6 @@ public class VertexFX extends Circle implements StylableNode {
         setOnMouseEntered((MouseEvent mouseEvent) -> {
 
             this.styleProxy.setStyleClass("vertex-hovering");
-            System.out.println("Entered VertexFX : " + this.attachedLabel.getText());
             if (p == null) p = (GraphPanel) getParent();
             if (!mouseEvent.isPrimaryButtonDown()) {
                 getScene().setCursor(Cursor.HAND);
@@ -198,7 +209,6 @@ public class VertexFX extends Circle implements StylableNode {
         setOnMouseExited((MouseEvent mouseEvent) -> {
 
             if (!isDragging && !isRightDragging) this.styleProxy.setStyleClass("vertex");
-            System.out.println("Exited VertexFX : " + this.attachedLabel.getText());
             if (!mouseEvent.isPrimaryButtonDown()) {
                 getScene().setCursor(Cursor.DEFAULT);
             }
@@ -216,7 +226,6 @@ public class VertexFX extends Circle implements StylableNode {
                 currVertex = this;
                 isReadyingToCreateEdge = true;
                 this.styleProxy.setStyleClass("vertex-hovering");
-                System.out.println("Dragged on : " + this.attachedLabel.getText());
                 getScene().setCursor(Cursor.HAND);
             }
         });
@@ -226,7 +235,6 @@ public class VertexFX extends Circle implements StylableNode {
             if (isRightDragging) {
                 isReadyingToCreateEdge = false;
                 this.styleProxy.setStyleClass("vertex");
-                System.out.println("Dragged out : " + this.attachedLabel.getText());
             }
         });
     }

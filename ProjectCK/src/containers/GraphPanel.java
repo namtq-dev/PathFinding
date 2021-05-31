@@ -113,12 +113,34 @@ public class GraphPanel extends Pane{
         this.getChildren().add(v.getValueLabel());
     }
 
+    public void removeVertex(VertexFX v) {
+        for (int i = this.edges.size() - 1; i >= 0; i--) {
+            if (this.edges.get(i).startVertex.isEquals(v) || this.edges.get(i).endVertex.isEquals(v)) {
+                System.out.println(this.edges.get(i));
+                this.removeEdge(edges.get(i));
+            }
+        }
+        vertices.remove(v);
+        graph.removeNode(v.getNode());
+        this.getChildren().remove(v);
+        this.getChildren().remove(v.getAttachedLabel());
+        this.getChildren().remove(v.getValueLabel());
+    }
+
     public void addEdge(EdgeLine edge) {
         edges.add(edge);
         graph.addEdge(edge.getEdge());
         this.getChildren().add(edge);
         this.getChildren().add(edge.getAttachedArrow());
         this.getChildren().add(edge.getAttachedLabel());
+    }
+
+    public void removeEdge(EdgeLine edge) {
+        edges.remove(edge);
+        graph.removeEdge(edge.getEdge());
+        this.getChildren().remove(edge);
+        this.getChildren().remove(edge.getAttachedArrow());
+        this.getChildren().remove(edge.getAttachedLabel());
     }
 
     public void addVirtualLine(VirtualVertexFX virtualVertex, EdgeLine virtualLine) {

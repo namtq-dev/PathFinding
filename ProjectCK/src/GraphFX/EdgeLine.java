@@ -1,13 +1,18 @@
 package GraphFX;
 
+import Containers.GraphPanel;
 import Graph.Edge;
 import Interfaces.EdgeBase;
 import Interfaces.LabelAttachable;
 import Interfaces.StylableNode;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.shape.Line;
 import javafx.scene.transform.Rotate;
+
+import java.awt.MouseInfo;
 
 public class EdgeLine extends Line implements EdgeBase, StylableNode, LabelAttachable {
 
@@ -22,6 +27,10 @@ public class EdgeLine extends Line implements EdgeBase, StylableNode, LabelAttac
     public final StyleProxy styleProxy;
     private DoubleProperty sin;
     private DoubleProperty cos;
+
+    private final ContextMenu deleteOption = new ContextMenu();
+    private final MenuItem delete = new MenuItem("Delete");
+    private GraphPanel p = null;
 
     public EdgeLine(VertexFX fromVertex, VertexFX toVertex, int weight) {
         this.startVertex = fromVertex;
@@ -48,6 +57,11 @@ public class EdgeLine extends Line implements EdgeBase, StylableNode, LabelAttac
         this.endYProperty().bind(toVertex.centerYProperty().subtract(sin.multiply(toVertex.getRadius())));
         attachLabel(new LabelNode(String.valueOf(weight)));
         attachArrow(new Arrow(7));
+        setupDeleteOption();
+
+        this.setOnContextMenuRequested(evt -> {
+            deleteOption.show(this, MouseInfo.getPointerInfo().getLocation().x, MouseInfo.getPointerInfo().getLocation().y);
+        });
 
         this.weight = weight;
     }
@@ -76,6 +90,15 @@ public class EdgeLine extends Line implements EdgeBase, StylableNode, LabelAttac
         this.endXProperty().bind(toVertex.centerXProperty());
         this.endYProperty().bind(toVertex.centerYProperty());
         attachArrow(new Arrow(7));
+    }
+
+    private void setupDeleteOption() {
+        delete.setOnAction(evt -> {
+            if (p == null) p = (GraphPanel) getParent();
+            p.removeEdge(this);
+        });
+
+        deleteOption.getItems().add(delete);
     }
 
     public Edge getEdge() {
