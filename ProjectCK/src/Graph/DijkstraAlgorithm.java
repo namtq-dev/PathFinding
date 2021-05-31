@@ -10,10 +10,15 @@ public class DijkstraAlgorithm extends ShortestPathSolver {
     * @param graph the graph
     * @param source the source node
     * @param target the target node
+    * @throws IllegalArgumentException if the graph has negative weight
     */
     @Override
     public void run(Graph graph, Node source, Node target) {
         
+        if (graph.hasNegativeWeight()) {
+            throw new IllegalArgumentException("Negative weight detected");
+        }
+
         Map<Node, NodeWrapper> nodeWrappers = new HashMap<>();
         TreeSet<NodeWrapper> queue = new TreeSet<>();
         Set<Node> visitedNodes = new HashSet<>();

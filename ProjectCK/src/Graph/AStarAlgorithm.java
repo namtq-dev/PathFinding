@@ -10,10 +10,15 @@ public class AStarAlgorithm extends ShortestPathSolver {
     * @param graph the graph
     * @param source the source node
     * @param target the target node
+    * @throws IllegalArgumentException if the graph has negative weight
     */
     @Override
     public void run(Graph graph, Node source, Node target) {
         
+        if (graph.hasNegativeWeight()) {
+            throw new IllegalArgumentException("Negative weight detected");
+        }
+
         Map<Node, AStarNodeWrapper> nodeWrappers = new HashMap<>();
         TreeSet< AStarNodeWrapper> queue = new TreeSet<>();
         Set<Node> visitedNodes = new HashSet<>();
@@ -26,27 +31,21 @@ public class AStarAlgorithm extends ShortestPathSolver {
         
         while (!queue.isEmpty()) {
 
-            Step step = new Step();
-            
             AStarNodeWrapper currentNodeWrapper = queue.pollFirst();
        
             Node currentNode = currentNodeWrapper.getNode();
             
             visitedNodes.add(currentNode);
-            
-            step.setCurrentNode(currentNode);
-            step.setCurrentNodeMarked(true);
-
+          
             // Have we reached the target? --> Build the path
             if (currentNode.equals(target)) {
-                buildPath(currentNodeWrapper);
-                
-                step.setCheckedEdges(null);
-                step.setNewCheckedCostValues(null);
-                steps.add(step);
-                
+                buildPath(currentNodeWrapper);                
                 return;
             }
+
+            Step step = new Step();
+            step.setCurrentNode(currentNode);
+            step.setCurrentNodeMarked(true);
 
             //Get adjacent edges
             Set<Edge> adjacentEdges = graph.getAdjacentEdges(currentNode);
