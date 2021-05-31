@@ -82,7 +82,7 @@ public class Animate {
     public static SequentialTransition makeAnimationSteps(List<Step> steps) {               // Making animations for steps
         SequentialTransition listAnimation = new SequentialTransition();
         setAnimateBeingVisited(listAnimation, steps.get(0).getCurrentNode().getNodeFX(), 0f);
-        for (int i = 0; i < steps.size()-1; i++) {
+        for (int i = 0; i < steps.size(); i++) {
             setAnimateChecking(listAnimation, steps.get(i).getCurrentNode().getNodeFX());
             for (int j = 0; j < steps.get(i).getCheckedEdges().size(); j++) {
                 setAnimateBeingVisited(listAnimation, steps.get(i).getCheckedEdges().get(j).getEdgeFX());
