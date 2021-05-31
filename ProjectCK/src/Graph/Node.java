@@ -2,7 +2,7 @@ package Graph;
 
 import GraphFX.VertexFX;
 
-public abstract class Node implements Comparable<Node>{
+public class Node implements Comparable<Node>{
 
     protected static int nodeID;
     

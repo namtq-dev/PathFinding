@@ -4,6 +4,8 @@ import java.util.List;
 
 import Containers.GraphPanel;
 import Containers.SpeedControlPane;
+import Graph.Edge;
+import Graph.Step;
 import GraphFX.EdgeLine;
 import GraphFX.VertexFX;
 import UIControls.ResetButton;
@@ -61,7 +63,7 @@ public class Animate {
         isInited = true;
     }
 
-    public static SequentialTransition makeAnimation(List<EdgeLine> steps, List<VertexFX> result) {
+    public static SequentialTransition makeAnimation(List<Step> steps, List<VertexFX> result) {
         if (isInited) {
             SequentialTransition listAnimation = new SequentialTransition();
             
@@ -76,11 +78,19 @@ public class Animate {
         }
     }
 
-    public static SequentialTransition makeAnimationSteps(List<EdgeLine> steps) {           // Making animations for steps
+    public static SequentialTransition makeAnimationSteps(List<Step> steps) {               // Making animations for steps
         SequentialTransition listAnimation = new SequentialTransition();
+        setAnimateBeingVisited(listAnimation, steps.get(0).getCurrentNode().getNodeFX(), 0f);
         for (int i = 0; i < steps.size(); i++) {
-            setAnimateBeingVisited(listAnimation, steps.get(i));
-            setAnimateBeingVisited(listAnimation, steps.get(i).endVertex);
+            for (int j = 0; j < steps.get(i).getCheckedEdges().size(); j++) {
+                setAnimateBeingVisited(listAnimation, steps.get(i).getCheckedEdges().get(j).getEdgeFX());
+                setAnimateBeingVisited(listAnimation, steps.get(i).getCheckedEdges().get(j).getEdgeFX().endVertex, steps.get(i).getNewCheckedNodeValues().get(j));
+            }
+
+            if (steps.get(i).isCurrentNodeMarked()) setAnimateVisited(listAnimation, steps.get(i).getCurrentNode().getNodeFX());
+            else {
+                resetCheckedEgdes(listAnimation, steps.get(i).getCheckedEdges());
+            }
         }
         return listAnimation;
     }
@@ -109,8 +119,12 @@ public class Animate {
         listAnimation.getChildren().add(animateArrowBeingVisited(edge));
     }
 
-    public static void setAnimateBeingVisited(SequentialTransition listAnimation, VertexFX vertex) {                    //Animation for Step : Vertices
-        listAnimation.getChildren().add(animateBeingVisited(vertex));
+    public static void setAnimateBeingVisited(SequentialTransition listAnimation, VertexFX vertex, double value) {      //Animation for Step : Vertices
+        listAnimation.getChildren().add(animateBeingVisited(vertex, value));
+    }
+
+    public static void setAnimateVisited(SequentialTransition listAnimation, VertexFX vertex) {
+        listAnimation.getChildren().add(animateVisited(vertex));
     }
 
     public static void setAnimateVertexInShortestPath(SequentialTransition listAnimation, VertexFX vertex) {            //Animation for Result : Vertices
@@ -122,11 +136,30 @@ public class Animate {
         listAnimation.getChildren().add(animateArrowInShortestPath(edge));
     }
 
-    public static Animation animateBeingVisited(VertexFX vertex) {
+    private static void resetCheckedEgdes(SequentialTransition listAnimation, List<Edge> edges) {
+        for (int i = 0;  i < edges.size(); i++) {
+            listAnimation.getChildren().add(changeEgdeColorImmediately(edges.get(i).getEdgeFX()));
+        }
+    }
+
+    public static Animation animateBeingVisited(VertexFX vertex, double value) {
         FillTransition fill = new FillTransition();
         fill.setAutoReverse(true);
         fill.setDuration(Duration.seconds(speed.get()));
-        fill.setToValue(Color.rgb(77, 148, 255));
+        fill.setToValue(Color.rgb(93, 187, 238));
+        fill.setShape(vertex);
+        fill.setOnFinished(evt -> {
+            vertex.getValueLabel().setText(String.valueOf(value));
+        });
+
+        return fill;
+    }
+
+    public static Animation animateVisited(VertexFX vertex) {
+        FillTransition fill = new FillTransition();
+        fill.setAutoReverse(true);
+        fill.setDuration(Duration.seconds(speed.get()));
+        fill.setToValue(Color.rgb(26, 117, 255));
         fill.setShape(vertex);
 
         return fill;
@@ -192,6 +225,15 @@ public class Animate {
         return stroke;
     }
 
+    private static Animation changeEgdeColorImmediately(EdgeLine edgeLine) {
+        StrokeTransition stroke = new StrokeTransition();
+        stroke.setAutoReverse(true);
+        stroke.setDuration(Duration.millis(0));
+        stroke.setToValue(Color.rgb(0, 179, 60));
+        stroke.setShape(edgeLine);
+
+        return stroke;
+    }
 
     public static void bindControlButtons(Animation animation, GraphPanel graphview, PauseButton pauseButton, ContinueButton continueButton, StopButton stopButton) {
         pauseButton.setVisible(true);

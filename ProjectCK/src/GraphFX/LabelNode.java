@@ -35,5 +35,4 @@ public class LabelNode extends Text implements StylableNode{
     public boolean removeStyleClass(String cssClass) {
         return styleProxy.removeStyleClass(cssClass);
     }
-
 }

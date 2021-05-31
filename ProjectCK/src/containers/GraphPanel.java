@@ -106,6 +106,7 @@ public class GraphPanel extends Pane{
         vertices.add(v);
         this.getChildren().add(v);
         this.getChildren().add(v.getAttachedLabel());
+        this.getChildren().add(v.getValueLabel());
     }
 
     public void addEdge(EdgeLine edge) {
@@ -137,7 +138,10 @@ public class GraphPanel extends Pane{
     }
 
     public void Reset() {
-        for (int i = 0; i < this.vertices.size(); i++) this.vertices.get(i).setStyleClass("vertex");
+        for (int i = 0; i < this.vertices.size(); i++) {
+            this.vertices.get(i).setStyleClass("vertex");
+            this.vertices.get(i).getValueLabel().setText("");
+        }
         for (int i = 0; i < this.edges.size(); i++) {
             this.edges.get(i).setStyleClass("edge");
             this.edges.get(i).getAttachedArrow().setStyleClass("arrow");

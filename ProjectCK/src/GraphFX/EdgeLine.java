@@ -1,5 +1,6 @@
 package GraphFX;
 
+import Graph.Edge;
 import Interfaces.EdgeBase;
 import Interfaces.LabelAttachable;
 import Interfaces.StylableNode;
@@ -13,6 +14,7 @@ public class EdgeLine extends Line implements EdgeBase, StylableNode, LabelAttac
     public final VertexFX startVertex;
     public final VertexFX endVertex;
     private int weight;
+    private Edge edge;
 
     private LabelNode attachedLabel = null;
     private Arrow attachedArrow = null;
@@ -25,6 +27,7 @@ public class EdgeLine extends Line implements EdgeBase, StylableNode, LabelAttac
         this.startVertex = fromVertex;
         this.endVertex = toVertex;
         this.weight = weight;
+        this.edge = new Edge(fromVertex.getNode(), toVertex.getNode(), weight, this);
 
         System.out.println("New EdgeLine : " + this.startVertex.getAttachedLabel().getText() + " - " + this.endVertex.getAttachedLabel().getText() + ", weight = " + this.weight);
 
@@ -73,6 +76,10 @@ public class EdgeLine extends Line implements EdgeBase, StylableNode, LabelAttac
         this.endXProperty().bind(toVertex.centerXProperty());
         this.endYProperty().bind(toVertex.centerYProperty());
         attachArrow(new Arrow(7));
+    }
+
+    public Edge getEdge() {
+        return this.edge;
     }
 
     @Override

@@ -4,6 +4,8 @@ import java.util.List;
 import Animation.Animate;
 import Containers.GraphPanel;
 import Containers.GraphScene;
+import Containers.SpeedControlPane;
+import Graph.Step;
 import GraphFX.EdgeLine;
 import GraphFX.VertexFX;
 import UIControls.ContinueButton;
@@ -29,7 +31,10 @@ public class TestAnimation extends Application{
         StopButton stopButton = new StopButton(215, 5);
         root.getChildren().addAll(resetButton, pauseButton, continueButton, stopButton);
 
-        List<EdgeLine> steps = new ArrayList<EdgeLine>();
+        SpeedControlPane speedControlPane = new SpeedControlPane(20, 75);
+        root.getChildren().addAll(speedControlPane, speedControlPane.getAttachedLabel());
+
+        List<Step> steps = new ArrayList<Step>();
         List<VertexFX> result = new ArrayList<VertexFX>();
 
         VertexFX A = new VertexFX(200, 200, "A");
@@ -74,17 +79,31 @@ public class TestAnimation extends Application{
         graphview.addEdge(GF);
         graphview.addEdge(GE);
 
-        steps.add(AB);
-        steps.add(BC);
-        steps.add(CD);
-        steps.add(DA);
-        steps.add(BF);
-        steps.add(BE);
-        steps.add(BH);
-        steps.add(HG);
-        steps.add(GC);
-        steps.add(GF);
-        steps.add(GE);
+        // TODO make steps
+        Step s = new Step();
+        s.setCurrentNode(A.getNode());
+        s.setCurrentNodeMarked();
+        s.getCheckedEdges().add(AB.getEdge());
+        s.getNewCheckedNodeValues().add(12d);
+        steps.add(s);
+
+        s = new Step();
+        s.setCurrentNode(B.getNode());
+        s.setCurrentNodeMarked();
+        s.getCheckedEdges().add(BE.getEdge());
+        s.getNewCheckedNodeValues().add(24d);
+        s.getCheckedEdges().add(BF.getEdge());
+        s.getNewCheckedNodeValues().add(28d);
+        s.getCheckedEdges().add(BC.getEdge());
+        s.getNewCheckedNodeValues().add(33d);
+        steps.add(s);
+
+        s = new Step();
+        s.setCurrentNode(C.getNode());
+        s.setCurrentNodeMarked();
+        s.getCheckedEdges().add(CD.getEdge());
+        s.getNewCheckedNodeValues().add(24d);
+        steps.add(s);
 
         result.add(A);
         result.add(B);

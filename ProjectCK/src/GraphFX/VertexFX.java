@@ -11,7 +11,7 @@ import java.awt.MouseInfo;
 import java.util.Optional;
 
 import Containers.GraphPanel;
-import Graphs.Node;
+import Graph.Node;
 import Interfaces.StylableNode;
 
 public class VertexFX extends Circle implements StylableNode {
@@ -21,6 +21,7 @@ public class VertexFX extends Circle implements StylableNode {
     private static VertexFX currVertex;
 
     private LabelNode attachedLabel;
+    private LabelNode valueLabel;
 
     private VirtualVertexFX virtualVertex;
     private EdgeLine virtualLine;
@@ -49,8 +50,9 @@ public class VertexFX extends Circle implements StylableNode {
         styleProxy = new StyleProxy(this);
         styleProxy.setStyleClass("vertex");
         attachedLabel.setStyleClass("vertex-label");
+        valueLabel.setStyleClass("vertex-value");
 
-        this.node = new Node(1, 1, "x");
+        this.node = new Node(this);
         enableDrag();
         setupContextMenu();
     }
@@ -230,12 +232,21 @@ public class VertexFX extends Circle implements StylableNode {
 
     public void attachLabel(LabelNode label) {
         this.attachedLabel = label;
+        this.valueLabel = new LabelNode("x");
+
         label.xProperty().bind(centerXProperty().subtract(label.getLayoutBounds().getWidth() / 1.5));
         label.yProperty().bind(centerYProperty().add(getRadius() + label.getLayoutBounds().getHeight()));
+
+        this.valueLabel.xProperty().bind(centerXProperty().subtract(label.getLayoutBounds().getWidth() / 1.5));
+        this.valueLabel.yProperty().bind(centerYProperty().subtract(getRadius() + label.getLayoutBounds().getHeight() - 10));
     }
 
     public LabelNode getAttachedLabel() {
         return attachedLabel;
+    }
+
+    public LabelNode getValueLabel () {
+        return valueLabel;
     }
 
     public GraphPanel getContainingGP() {
