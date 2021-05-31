@@ -3,7 +3,7 @@ package Graph;
 import com.google.common.graph.*;
 import java.util.*;
 
-public class DijkstraAlgorithm {
+public class DijkstraAlgorithm extends ShortestPathSolver {
 
     /**
     * Finds the shortest path from {@code source} to {@code target}.
@@ -13,8 +13,7 @@ public class DijkstraAlgorithm {
     * @param target the target node
     * @return the shortest path; or {@code null} if no path was found
     */
-    public static List<Node> findShortestPath(
-        ValueGraph<Node, Double> graph, Node source, Node target) {
+    public void run(Graph graph, Node source, Node target) {
         
         TreeSet<Node> queue = new TreeSet<>();
         Set<Node> shortestPathFound = new HashSet<>();
@@ -97,5 +96,8 @@ public class DijkstraAlgorithm {
         
         return path;
     }
+
+
   
+    
 }

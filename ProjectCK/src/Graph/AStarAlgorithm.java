@@ -3,7 +3,7 @@ package Graph;
 import com.google.common.graph.*;
 import java.util.*;
 
-public class AStarAlgorithm {
+public class AStarAlgorithm extends ShortestPathSolver {
     
    /**
    * Finds the shortest path from {@code source} to {@code target}.
@@ -13,9 +13,7 @@ public class AStarAlgorithm {
    * @param target the target node
    * @return the shortest path; or {@code null} if no path was found
    */
-    public static List<Node> findShortestPath(
-        ValueGraph<CoordinateNode, Double> graph, 
-        CoordinateNode source, CoordinateNode target) {
+    public void run(Graph graph, Node source, Node target) {
         
         TreeSet<CoordinateNode> queue = new TreeSet<>();
         Set<Node> shortestPathFound = new HashSet<>();

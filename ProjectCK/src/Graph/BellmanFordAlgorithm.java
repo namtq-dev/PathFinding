@@ -3,7 +3,7 @@ package Graph;
 import com.google.common.graph.*;
 import java.util.*;
 
-public class BellmanFordAlgorithm {
+public class BellmanFordAlgorithm extends ShortestPathSolver{
     
    /**
    * Finds the shortest path from {@code source} to {@code target}.
@@ -14,11 +14,10 @@ public class BellmanFordAlgorithm {
    * @return the shortest path; or {@code null} if no path was found
    * @throws IllegalArgumentException if a negative cycle was discovered
    */
-    public static List<Node> findShortestPath(
-        ValueGraph<Node, Double> graph, Node source, Node target) {
+    public void run(Graph graph, Node source, Node target) {
 
         
-        return null;
+
     }
     
     private static List<Node> buildPath(Node node) {
