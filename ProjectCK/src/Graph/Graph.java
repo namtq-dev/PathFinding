@@ -59,7 +59,9 @@ public class Graph {
     
     public boolean removeNode(Node node){
         if (allNodes.remove(node)) {
-            for (Edge edge : allEdges) {
+            Set<Edge> allEdgesClone = new HashSet<>();
+            allEdgesClone.addAll(allEdges);
+            for (Edge edge : allEdgesClone) {
                 if(edge.getStartNode().getId() == node.getId() || edge.getEndNode().getId() == node.getId())
                     allEdges.remove(edge);
             }

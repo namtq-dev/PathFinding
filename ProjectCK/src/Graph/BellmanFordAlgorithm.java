@@ -10,27 +10,14 @@ public class BellmanFordAlgorithm extends ShortestPathSolver{
    * @param graph the graph
    * @param source the source node
    * @param target the target node
-   * @return the shortest path; or {@code null} if no path was found
    * @throws IllegalArgumentException if a negative cycle was discovered
    */
+    @Override
     public void run(Graph graph, Node source, Node target) {
 
+        Map<Node, NodeWrapper> nodeWrappers = new HashMap<>();
         
 
-    }
-    
-    private static List<Node> buildPath(Node node) {
-        
-        List<Node> path = new ArrayList<>();
-       
-        while (node != null) {
-            path.add(node);
-            node = node.getPredecessor();
-        }
-        
-        Collections.reverse(path);
-        
-        return path;
     }
     
 }
