@@ -14,12 +14,13 @@ public class AStarAlgorithm extends ShortestPathSolver {
     @Override
     public void run(Graph graph, Node source, Node target) {
         
-        Map<Node, NodeWrapper> nodeWrappers = new HashMap<>();
-        TreeSet<NodeWrapper> queue = new TreeSet<>();
+        Map<Node, AStarNodeWrapper> nodeWrappers = new HashMap<>();
+        TreeSet< AStarNodeWrapper> queue = new TreeSet<>();
         Set<Node> visitedNodes = new HashSet<>();
     
         // Add source to queue
-        NodeWrapper sourceWrapper = new NodeWrapper(source, 0, null);
+         AStarNodeWrapper sourceWrapper = new  AStarNodeWrapper(source, 0, null, 
+                                                                                                   calculateHeuristicValue(source, target));
         nodeWrappers.put(source, sourceWrapper);
         queue.add(sourceWrapper);
         
@@ -27,7 +28,7 @@ public class AStarAlgorithm extends ShortestPathSolver {
 
             Step step = new Step();
             
-            NodeWrapper currentNodeWrapper = queue.pollFirst();
+            AStarNodeWrapper currentNodeWrapper = queue.pollFirst();
        
             Node currentNode = currentNodeWrapper.getNode();
             
@@ -62,12 +63,13 @@ public class AStarAlgorithm extends ShortestPathSolver {
                 step.getCheckedEdges().add(adjacentEdge);
                 
                 // Calculate total cost from start to adjacent node via current node
-                double newCost = currentNodeWrapper.getCost() + graph.getEdgeValue(adjacentEdge);
+                double newCost = currentNodeWrapper.getCost() + adjacentEdge.getWeight();
 
                 // Adjacent node not yet discovered?
-                NodeWrapper adjacentNodeWrapper = nodeWrappers.get(adjacentNode);
+                AStarNodeWrapper adjacentNodeWrapper = nodeWrappers.get(adjacentNode);
                 if (adjacentNodeWrapper == null) {
-                    adjacentNodeWrapper = new NodeWrapper(adjacentNode, newCost, currentNodeWrapper);
+                    adjacentNodeWrapper = new AStarNodeWrapper(adjacentNode, newCost, currentNodeWrapper,
+                                                                                    calculateHeuristicValue(adjacentNode, target));
                     nodeWrappers.put(adjacentNode, adjacentNodeWrapper);
                     queue.add(adjacentNodeWrapper);
                     
@@ -105,4 +107,10 @@ public class AStarAlgorithm extends ShortestPathSolver {
         result = null;
     }
 
+    double calculateHeuristicValue(Node node, Node target) {
+        double distanceX = target.getNodeFX().getCenterX() - node.getNodeFX().getCenterX();
+        double distanceY = target.getNodeFX().getCenterY() - node.getNodeFX().getCenterY();
+        return Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+    }
+    
 }

@@ -62,7 +62,7 @@ public class DijkstraAlgorithm extends ShortestPathSolver {
                 step.getCheckedEdges().add(adjacentEdge);
                 
                 // Calculate total cost from start to adjacent node via current node
-                double newCost = currentNodeWrapper.getCost() + graph.getEdgeValue(adjacentEdge);
+                double newCost = currentNodeWrapper.getCost() + adjacentEdge.getWeight();
 
                 // Adjacent node not yet discovered?
                 NodeWrapper adjacentNodeWrapper = nodeWrappers.get(adjacentNode);
