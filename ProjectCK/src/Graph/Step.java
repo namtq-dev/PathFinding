@@ -6,9 +6,9 @@ import java.util.List;
 public class Step {
     
     private Node currentNode;
-    boolean currentNodeMarked;
-    List<Edge> checkedEdges;
-    List<Double> newCheckedCostValues;
+    private boolean currentNodeMarked;
+    private List<Edge> checkedEdges;
+    private List<Double> newCheckedCostValues;
 
     public Step() {
         currentNode = null;

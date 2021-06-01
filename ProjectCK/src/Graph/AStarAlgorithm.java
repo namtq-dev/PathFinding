@@ -4,17 +4,10 @@ import java.util.*;
 
 public class AStarAlgorithm extends ShortestPathSolver {
     
-    /**
-    * Finds the shortest path from {@code source} to {@code target}.
-    *
-    * @param graph the graph
-    * @param source the source node
-    * @param target the target node
-    * @throws IllegalArgumentException if the graph has negative weight
-    */
     @Override
     public void run(Graph graph, Node source, Node target) {
         
+        // Throw IllegalArgumentException if the graph has negative weight
         if (graph.hasNegativeWeight()) {
             throw new IllegalArgumentException("Negative weight detected");
         }
@@ -37,7 +30,7 @@ public class AStarAlgorithm extends ShortestPathSolver {
             
             visitedNodes.add(currentNode);
           
-            // Have we reached the target? --> Build the path
+            // Build the path if target was reached
             if (currentNode.equals(target)) {
                 buildPath(currentNodeWrapper);                
                 return;
@@ -61,10 +54,10 @@ public class AStarAlgorithm extends ShortestPathSolver {
 
                 step.getCheckedEdges().add(adjacentEdge);
                 
-                // Calculate total cost from start to adjacent node via current node
+                // Calculate total cost from source to adjacent node via current node
                 double newCost = currentNodeWrapper.getCost() + adjacentEdge.getWeight();
 
-                // Adjacent node not yet discovered?
+                // Adjacent node not yet discovered
                 AStarNodeWrapper adjacentNodeWrapper = nodeWrappers.get(adjacentNode);
                 if (adjacentNodeWrapper == null) {
                     adjacentNodeWrapper = new AStarNodeWrapper(adjacentNode, newCost, currentNodeWrapper,
@@ -75,14 +68,12 @@ public class AStarAlgorithm extends ShortestPathSolver {
                     step.getNewCheckedCostValues().add(newCost);
                 }                   
 
-                // Neighbor discovered, but total cost via current node is lower?
+                // Adjacent node discovered, but total cost via current node is lower
                 // --> Update cost and predecessor
                 else if (newCost < adjacentNodeWrapper.getCost()) {
                     
-                    // The position in the TreeSet won't change automatically;
-                    // we have to remove and reinsert the node.
-                    // Because TreeSet uses compareTo() to identity a node to remove,
-                    // we have to remove it *before* we change cost!
+                    // The position in the TreeSet won't change automatically
+                    // --> Remove and reinsert the node
                     queue.remove(adjacentNodeWrapper);
 
                     adjacentNodeWrapper.setCost(newCost);
@@ -106,6 +97,7 @@ public class AStarAlgorithm extends ShortestPathSolver {
         result = null;
     }
 
+    // Calculate heuristic value by using Euclidean distance
     double calculateHeuristicValue(Node node, Node target) {
         double distanceX = target.getNodeFX().getCenterX() - node.getNodeFX().getCenterX();
         double distanceY = target.getNodeFX().getCenterY() - node.getNodeFX().getCenterY();

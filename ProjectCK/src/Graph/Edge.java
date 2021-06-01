@@ -2,7 +2,7 @@ package Graph;
 
 import GUI.GraphFX.EdgeLine;
 
-public class Edge {
+public class Edge implements Comparable<Edge>{
     
     private static int edgeID;
     
@@ -10,7 +10,7 @@ public class Edge {
     private final Node startNode;
     private final Node endNode;
     private final double weight;
-    private EdgeLine edgeFX;
+    private final EdgeLine edgeFX;
     
     public Edge(Node startNode , Node  endNode , double weight, EdgeLine edgeFX) {
         this.id = edgeID;
@@ -41,4 +41,9 @@ public class Edge {
         return edgeFX;
     }
 
+    @Override
+    public int compareTo(Edge t) {
+        return this.id - t.id;
+    }
+    
 }

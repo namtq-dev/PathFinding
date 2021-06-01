@@ -4,14 +4,6 @@ import java.util.*;
 
 public class BellmanFordAlgorithm extends ShortestPathSolver{
     
-   /**
-   * Finds the shortest path from {@code source} to {@code target}.
-   *
-   * @param graph the graph
-   * @param source the source node
-   * @param target the target node
-   * @throws IllegalArgumentException if a negative cycle was discovered
-   */
     @Override
     public void run(Graph graph, Node source, Node target) {
 
@@ -29,7 +21,7 @@ public class BellmanFordAlgorithm extends ShortestPathSolver{
         boolean lastIteration = false;
         for (int i = 0; i < n; i++) {
         
-            // Last iteration for detecting negative cycles?
+            // Last iteration for detecting negative cycle?
             if(i == n - 1)
                 lastIteration = true;
 
@@ -61,13 +53,15 @@ public class BellmanFordAlgorithm extends ShortestPathSolver{
                         continue;
                     }
 
-                    // Calculate total cost from start to adjacent node via current node
+                    // Calculate total cost from source to adjacent node via current node
                     double newCost = currentNodeWrapper.getCost() + adjacentEdge.getWeight();
 
                     // Cheaper path found?
-                    //      + regular iteration --> update cost and predecessor
-                    //      + negative cycle detection --> throw exception
+                    //      + Regular iteration? --> update cost and predecessor
+                    //      + Negative cycle detection? --> throw exception
                     if (newCost < adjacentNodeWrapper.getCost()) {
+                        
+                        // Throw IllegalArgumentException if a negative cycle was discovered
                         if (lastIteration) {
                             throw new IllegalArgumentException("Negative cycle detected");
                         }
@@ -92,7 +86,7 @@ public class BellmanFordAlgorithm extends ShortestPathSolver{
                 break;
         }
     
-        // Path found?
+        // Build the path if it was found
         NodeWrapper targetWrapper = nodeWrappers.get(target);
         if (targetWrapper.getPredecessor() != null) {
             buildPath(targetWrapper);
@@ -100,5 +94,7 @@ public class BellmanFordAlgorithm extends ShortestPathSolver{
         else {
             result = null;
         }
+        
     }
+    
 }
