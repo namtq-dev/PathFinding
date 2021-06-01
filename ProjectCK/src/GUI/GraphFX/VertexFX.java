@@ -30,6 +30,8 @@ public class VertexFX extends Circle implements StylableNode {
     private static boolean isReadyingToCreateEdge = false;
     private static VertexFX currVertex;
 
+    private ShortestPathContext shortestPathContext = new ShortestPathContext();
+
     private LabelNode attachedLabel;
     private LabelNode valueLabel;
 
@@ -110,7 +112,6 @@ public class VertexFX extends Circle implements StylableNode {
 
                 alert.showAndWait();
             } else {
-                ShortestPathContext shortestPathContext = new ShortestPathContext();
                 shortestPathContext.setSolver(new DijkstraAlgorithm());
                 ShortestPathSolver kq = shortestPathContext.solve(p.getGraph(), this.getNode(), currVertex.getNode());
 
@@ -121,7 +122,6 @@ public class VertexFX extends Circle implements StylableNode {
         });
 
         run_BellmanFord.setOnAction(evt -> {
-            ShortestPathContext shortestPathContext = new ShortestPathContext();
             shortestPathContext.setSolver(new BellmanFordAlgorithm());
             ShortestPathSolver kq = shortestPathContext.solve(p.getGraph(), this.getNode(), currVertex.getNode());
 
@@ -139,7 +139,6 @@ public class VertexFX extends Circle implements StylableNode {
 
                 alert.showAndWait();
             } else {
-                ShortestPathContext shortestPathContext = new ShortestPathContext();
                 shortestPathContext.setSolver(new AStarAlgorithm());
                 ShortestPathSolver kq = shortestPathContext.solve(p.getGraph(), this.getNode(), currVertex.getNode());
 
