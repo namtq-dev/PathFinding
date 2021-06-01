@@ -96,7 +96,6 @@ public class Animate {
                 setAnimateBeingVisited(listAnimation, steps.get(i).getCheckedEdges().get(j).getEdgeFX().endVertex, steps.get(i).getNewCheckedCostValues().get(j));
             }
 
-            System.out.println(steps.get(i).isCurrentNodeMarked());
             if (steps.get(i).isCurrentNodeMarked()) setAnimateVisited(listAnimation, steps.get(i).getCurrentNode().getNodeFX());
             else {
                 resetCheckedEgdes(listAnimation, steps.get(i).getCheckedEdges());
@@ -303,7 +302,6 @@ public class Animate {
     }
 
     private static Animation changeVertexColorImmediately(VertexFX vertex) {
-        System.out.println("Animate.changeVertexColorImmediately()");
         FillTransition fill = new FillTransition();
         fill.setAutoReverse(true);
         fill.setDuration(Duration.seconds(speed.get()/5));

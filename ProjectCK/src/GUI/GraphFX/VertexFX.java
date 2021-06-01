@@ -102,7 +102,6 @@ public class VertexFX extends Circle implements StylableNode {
         });
 
         run_Dijkstra.setOnAction(evt -> {
-            System.out.println("Execute Dijkstra");
             if (p.getGraph().hasNegativeWeight()) {
                 Alert alert = new Alert(AlertType.WARNING);
                 alert.setTitle("Cannot Execute Algorithm");
@@ -122,7 +121,6 @@ public class VertexFX extends Circle implements StylableNode {
         });
 
         run_BellmanFord.setOnAction(evt -> {
-            System.out.println("Execute BellmanFord");
             ShortestPathContext shortestPathContext = new ShortestPathContext();
             shortestPathContext.setSolver(new BellmanFordAlgorithm());
             ShortestPathSolver kq = shortestPathContext.solve(p.getGraph(), this.getNode(), currVertex.getNode());
