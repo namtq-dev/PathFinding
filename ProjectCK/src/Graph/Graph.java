@@ -44,6 +44,7 @@ public class Graph {
     }
     
     public boolean addEdge(Edge edge){
+        if (edge.getWeight() < 0) this.hasNegativeWeight = true;
         return allEdges.add(edge);
     }
     

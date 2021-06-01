@@ -282,7 +282,7 @@ public class VertexFX extends Circle implements StylableNode {
 
     public void attachLabel(LabelNode label) {
         this.attachedLabel = label;
-        this.valueLabel = new LabelNode("∞");
+        this.valueLabel = new LabelNode("");
 
         label.xProperty().bind(centerXProperty().subtract(label.getLayoutBounds().getWidth() / 1.5));
         label.yProperty().bind(centerYProperty().add(getRadius() + label.getLayoutBounds().getHeight()));

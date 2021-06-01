@@ -33,6 +33,7 @@ public class Animate {
     private static DoubleProperty speed = null;
 
     public static void playAnimation(GraphPanel graphview, ResetButton resetBtn, PauseButton pauseButton, ContinueButton continueButton, StopButton stopButton, Animation animation, List<Node> result) {
+        graphview.ReadyToSimulate();
         playAnimation(graphview, resetBtn, pauseButton, continueButton, stopButton, animation, result != null);
     }
 

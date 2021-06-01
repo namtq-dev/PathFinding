@@ -174,6 +174,12 @@ public class GraphPanel extends Pane{
         }
     }
 
+    public void ReadyToSimulate() {
+        for (int i = 0; i < this.vertices.size(); i++) {
+            this.vertices.get(i).getValueLabel().setText("∞");
+        }
+    }
+
     public Graph getGraph() {
         return graph;
     }

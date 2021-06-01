@@ -60,8 +60,6 @@ public class EdgeLine extends Line implements EdgeBase, StylableNode, LabelAttac
         this.setOnContextMenuRequested(evt -> {
             deleteOption.show(this, MouseInfo.getPointerInfo().getLocation().x, MouseInfo.getPointerInfo().getLocation().y);
         });
-
-        this.weight = weight;
     }
 
     public EdgeLine(VertexFX fromVertex, VirtualVertexFX toVertex) {
