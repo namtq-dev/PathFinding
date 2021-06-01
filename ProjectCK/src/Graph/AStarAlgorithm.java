@@ -98,7 +98,7 @@ public class AStarAlgorithm extends ShortestPathSolver {
     }
 
     // Calculate heuristic value by using Euclidean distance
-    double calculateHeuristicValue(Node node, Node target) {
+    private double calculateHeuristicValue(Node node, Node target) {
         double distanceX = target.getNodeFX().getCenterX() - node.getNodeFX().getCenterX();
         double distanceY = target.getNodeFX().getCenterY() - node.getNodeFX().getCenterY();
         return Math.sqrt(distanceX * distanceX + distanceY * distanceY);
