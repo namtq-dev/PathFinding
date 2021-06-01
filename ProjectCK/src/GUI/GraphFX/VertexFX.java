@@ -103,12 +103,11 @@ public class VertexFX extends Circle implements StylableNode {
 
         run_Dijkstra.setOnAction(evt -> {
             System.out.println("Execute Dijkstra");
-            System.out.println(p.getGraph().hasNegativeWeight());
             if (p.getGraph().hasNegativeWeight()) {
                 Alert alert = new Alert(AlertType.WARNING);
                 alert.setTitle("Cannot Execute Algorithm");
-                alert.setHeaderText("EXECUTE FAILED");
-                alert.setContentText("The graph has negative weight edge !");
+                alert.setHeaderText("EXECUTION FAILED");
+                alert.setContentText("Negative weight detected!");
 
                 alert.showAndWait();
             } else {
@@ -134,15 +133,22 @@ public class VertexFX extends Circle implements StylableNode {
         });
 
         run_AStar.setOnAction(evt -> {
-            System.out.println("Execute AStar");
-            System.out.println("Execute BellmanFord");
-            ShortestPathContext shortestPathContext = new ShortestPathContext();
-            shortestPathContext.setSolver(new AStarAlgorithm());
-            ShortestPathSolver kq = shortestPathContext.solve(p.getGraph(), this.getNode(), currVertex.getNode());
+            if (p.getGraph().hasNegativeWeight()) {
+                Alert alert = new Alert(AlertType.WARNING);
+                alert.setTitle("Cannot Execute Algorithm");
+                alert.setHeaderText("EXECUTION FAILED");
+                alert.setContentText("Negative weight detected!");
 
-            SequentialTransition animation = Animate.makeAnimation(kq.getSteps(), kq.getResult());
-            Animate.bindControlButtons(animation, p, Buttons.getBindPauseButton(), Buttons.getBindContinueButton(), Buttons.getBindStopButton());
-            Animate.playAnimation(p, Buttons.getBindResetButton(), Buttons.getBindPauseButton(), Buttons.getBindContinueButton(), Buttons.getBindStopButton(), animation, kq.getResult());
+                alert.showAndWait();
+            } else {
+                ShortestPathContext shortestPathContext = new ShortestPathContext();
+                shortestPathContext.setSolver(new AStarAlgorithm());
+                ShortestPathSolver kq = shortestPathContext.solve(p.getGraph(), this.getNode(), currVertex.getNode());
+
+                SequentialTransition animation = Animate.makeAnimation(kq.getSteps(), kq.getResult());
+                Animate.bindControlButtons(animation, p, Buttons.getBindPauseButton(), Buttons.getBindContinueButton(), Buttons.getBindStopButton());
+                Animate.playAnimation(p, Buttons.getBindResetButton(), Buttons.getBindPauseButton(), Buttons.getBindContinueButton(), Buttons.getBindStopButton(), animation, kq.getResult());
+            }
         });
 
         contextMenu.getItems().addAll(newVertex, run_Dijkstra, run_BellmanFord, run_AStar);
