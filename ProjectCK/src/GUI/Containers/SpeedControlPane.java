@@ -32,7 +32,7 @@ public class SpeedControlPane extends Slider {
         this.setTranslateX(transLateX);
         this.setTranslateY(transLateY);
 
-        label = new Text("Speed");
+        label = new Text("Latency");
         label.setTranslateX(transLateX - 7);
         label.setTranslateY(transLateY + 160);
 

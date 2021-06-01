@@ -88,10 +88,12 @@ public class Animate {
                 setAnimateBeingVisited(listAnimation, steps.get(i).getCheckedEdges().get(j).getEdgeFX().endVertex, steps.get(i).getNewCheckedCostValues().get(j));
             }
 
+            System.out.println(steps.get(i).isCurrentNodeMarked());
             if (steps.get(i).isCurrentNodeMarked()) setAnimateVisited(listAnimation, steps.get(i).getCurrentNode().getNodeFX());
             else {
                 resetCheckedEgdes(listAnimation, steps.get(i).getCheckedEdges());
-                setAnimateChecked(listAnimation, steps.get(i).getCurrentNode().getNodeFX());
+                resetCheckedNode(listAnimation, steps.get(i));
+                //setAnimateChecked(listAnimation, steps.get(i).getCurrentNode().getNodeFX());
             }
         }
         return listAnimation;
@@ -150,6 +152,13 @@ public class Animate {
         for (int i = 0;  i < edges.size(); i++) {
             listAnimation.getChildren().add(changeEgdeColorImmediately(edges.get(i).getEdgeFX()));
             listAnimation.getChildren().add(changeArrowColorImmediately(edges.get(i).getEdgeFX()));
+        }
+    }
+
+    private static void resetCheckedNode(SequentialTransition listAnimation, Step step) {
+        listAnimation.getChildren().add(changeVertexColorImmediately(step.getCurrentNode().getNodeFX()));
+        for (int i = 0;  i < step.getCheckedEdges().size(); i++) {
+            listAnimation.getChildren().add(changeVertexColorImmediately(step.getCheckedEdges().get(i).getEndNode().getNodeFX()));
         }
     }
 
@@ -266,7 +275,7 @@ public class Animate {
     private static Animation changeEgdeColorImmediately(EdgeLine edgeLine) {
         StrokeTransition stroke = new StrokeTransition();
         stroke.setAutoReverse(true);
-        stroke.setDuration(Duration.millis(200));
+        stroke.setDuration(Duration.seconds(speed.get()/5));
         //stroke.setToValue(Color.rgb(255, 109, 102));
         stroke.setToValue(Color.rgb(117, 147, 255));
         stroke.setShape(edgeLine);
@@ -277,12 +286,23 @@ public class Animate {
     private static Animation changeArrowColorImmediately(EdgeLine edgeLine) {
         StrokeTransition stroke = new StrokeTransition();
         stroke.setAutoReverse(true);
-        stroke.setDuration(Duration.millis(200));
+        stroke.setDuration(Duration.seconds(speed.get()/5));
         //stroke.setToValue(Color.rgb(255, 109, 102));
         stroke.setToValue(Color.rgb(117, 147, 255));
         stroke.setShape(edgeLine.getAttachedArrow());
 
         return stroke;
+    }
+
+    private static Animation changeVertexColorImmediately(VertexFX vertex) {
+        System.out.println("Animate.changeVertexColorImmediately()");
+        FillTransition fill = new FillTransition();
+        fill.setAutoReverse(true);
+        fill.setDuration(Duration.seconds(speed.get()/5));
+        fill.setToValue(Color.rgb(177, 223, 247));
+        fill.setShape(vertex);
+
+        return fill;
     }
 
     public static void bindControlButtons(Animation animation, GraphPanel graphview, PauseButton pauseButton, ContinueButton continueButton, StopButton stopButton) {
