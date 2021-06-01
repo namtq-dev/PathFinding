@@ -1,6 +1,6 @@
-package Interfaces;
+package GUI.Interfaces;
 
-import GraphFX.LabelNode;
+import GUI.GraphFX.LabelNode;
 
 public interface LabelAttachable {
     public void attachLabel(LabelNode label);

@@ -1,4 +1,4 @@
-package GraphFX;
+package GUI.GraphFX;
 
 public class VirtualVertexFX extends VertexFX{
 

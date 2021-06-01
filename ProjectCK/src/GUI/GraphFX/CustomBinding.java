@@ -1,4 +1,4 @@
-package GraphFX;
+package GUI.GraphFX;
 
 import static javafx.beans.binding.Bindings.createDoubleBinding;
 import javafx.beans.binding.DoubleBinding;

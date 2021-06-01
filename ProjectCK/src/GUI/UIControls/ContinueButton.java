@@ -1,4 +1,4 @@
-package UIControls;
+package GUI.UIControls;
 
 import java.io.InputStream;
 
@@ -6,10 +6,10 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class PauseButton extends Button {
-    public PauseButton(int translateX, int translateY) {
+public class ContinueButton extends Button {
+    public ContinueButton(int translateX, int translateY) {
         super();
-        InputStream input = getClass().getResourceAsStream("img/pause_icon.png");
+        InputStream input = getClass().getResourceAsStream("img/continue_icon.png");
         Image image = new Image(input);
         ImageView imageView = new ImageView(image);
         imageView.setFitHeight(50);

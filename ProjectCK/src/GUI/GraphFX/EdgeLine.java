@@ -1,10 +1,6 @@
-package GraphFX;
+package GUI.GraphFX;
 
-import Containers.GraphPanel;
 import Graph.Edge;
-import Interfaces.EdgeBase;
-import Interfaces.LabelAttachable;
-import Interfaces.StylableNode;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.control.ContextMenu;
@@ -13,6 +9,11 @@ import javafx.scene.shape.Line;
 import javafx.scene.transform.Rotate;
 
 import java.awt.MouseInfo;
+
+import GUI.Containers.GraphPanel;
+import GUI.Interfaces.EdgeBase;
+import GUI.Interfaces.LabelAttachable;
+import GUI.Interfaces.StylableNode;
 
 public class EdgeLine extends Line implements EdgeBase, StylableNode, LabelAttachable {
 

@@ -1,15 +1,16 @@
-import Containers.GraphPanel;
-import Containers.GraphScene;
-import Containers.SpeedControlPane;
-import UIControls.Buttons;
-import UIControls.ContinueButton;
-import UIControls.PauseButton;
-import UIControls.ResetButton;
-import UIControls.StopButton;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
+import GUI.Containers.GraphPanel;
+import GUI.Containers.GraphScene;
+import GUI.Containers.SpeedControlPane;
+import GUI.UIControls.Buttons;
+import GUI.UIControls.ContinueButton;
+import GUI.UIControls.PauseButton;
+import GUI.UIControls.ResetButton;
+import GUI.UIControls.StopButton;
 
 public class Main extends Application{
     @Override

@@ -1,4 +1,4 @@
-package UIControls;
+package GUI.UIControls;
 
 import java.io.InputStream;
 

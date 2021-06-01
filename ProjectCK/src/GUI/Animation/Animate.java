@@ -1,19 +1,18 @@
-package Animation;
+package GUI.Animation;
 
 import java.util.List;
 
-import Containers.GraphPanel;
-import Containers.SpeedControlPane;
+import GUI.Containers.GraphPanel;
+import GUI.Containers.SpeedControlPane;
+import GUI.GraphFX.EdgeLine;
+import GUI.GraphFX.VertexFX;
+import GUI.UIControls.ContinueButton;
+import GUI.UIControls.PauseButton;
+import GUI.UIControls.ResetButton;
+import GUI.UIControls.StopButton;
 import Graph.Edge;
 import Graph.Node;
 import Graph.Step;
-import GraphFX.EdgeLine;
-import GraphFX.VertexFX;
-import UIControls.ResetButton;
-import UIControls.StopButton;
-import UIControls.PauseButton;
-import UIControls.ContinueButton;
-
 import javafx.animation.Animation;
 import javafx.animation.FillTransition;
 import javafx.animation.SequentialTransition;

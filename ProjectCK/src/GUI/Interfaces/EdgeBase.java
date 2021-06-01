@@ -1,6 +1,6 @@
-package Interfaces;
+package GUI.Interfaces;
 
-import GraphFX.Arrow;
+import GUI.GraphFX.Arrow;
 
 public interface EdgeBase {
     public void attachArrow(Arrow arrow);

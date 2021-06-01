@@ -1,4 +1,4 @@
-package Containers;
+package GUI.Containers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,10 +6,10 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import GUI.GraphFX.EdgeLine;
+import GUI.GraphFX.VertexFX;
+import GUI.GraphFX.VirtualVertexFX;
 import Graph.Graph;
-import GraphFX.EdgeLine;
-import GraphFX.VertexFX;
-import GraphFX.VirtualVertexFX;
 
 import java.io.File;
 import java.net.MalformedURLException;

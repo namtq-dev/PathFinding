@@ -1,6 +1,6 @@
 package Graph;
 
-import GraphFX.EdgeLine;
+import GUI.GraphFX.EdgeLine;
 
 public class Edge {
     

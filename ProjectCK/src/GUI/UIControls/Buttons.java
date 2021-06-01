@@ -1,4 +1,4 @@
-package UIControls;
+package GUI.UIControls;
 
 public class Buttons {
     private static ResetButton bindResetButton;

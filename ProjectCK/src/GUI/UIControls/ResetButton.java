@@ -1,8 +1,8 @@
-package UIControls;
+package GUI.UIControls;
 
 import java.io.InputStream;
 
-import Containers.GraphPanel;
+import GUI.Containers.GraphPanel;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;

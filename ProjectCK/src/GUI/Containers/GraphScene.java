@@ -1,4 +1,4 @@
-package Containers;
+package GUI.Containers;
 
 import javafx.scene.layout.BorderPane;
 

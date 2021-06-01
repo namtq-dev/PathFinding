@@ -1,6 +1,6 @@
-package GraphFX;
+package GUI.GraphFX;
 
-import Interfaces.StylableNode;
+import GUI.Interfaces.StylableNode;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;

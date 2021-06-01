@@ -1,4 +1,4 @@
-package Interfaces;
+package GUI.Interfaces;
 
 public interface StylableNode {
     public void setStyle(String css);

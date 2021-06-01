@@ -1,6 +1,6 @@
 package Graph;
 
-import GraphFX.VertexFX;
+import GUI.GraphFX.VertexFX;
 
 public class Node implements Comparable<Node>{
 

@@ -1,6 +1,6 @@
-package GraphFX;
+package GUI.GraphFX;
 
-import Interfaces.StylableNode;
+import GUI.Interfaces.StylableNode;
 import javafx.scene.shape.Shape;
 
 public class StyleProxy implements StylableNode {

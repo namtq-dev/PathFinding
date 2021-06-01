@@ -1,4 +1,4 @@
-package GraphFX;
+package GUI.GraphFX;
 
 import javafx.scene.shape.Circle;
 import javafx.animation.SequentialTransition;
@@ -13,16 +13,16 @@ import javafx.scene.input.MouseEvent;
 import java.awt.MouseInfo;
 import java.util.Optional;
 
-import Animation.Animate;
-import Containers.GraphPanel;
+import GUI.Animation.Animate;
+import GUI.Containers.GraphPanel;
+import GUI.Interfaces.StylableNode;
+import GUI.UIControls.Buttons;
 import Graph.AStarAlgorithm;
 import Graph.BellmanFordAlgorithm;
 import Graph.DijkstraAlgorithm;
 import Graph.Node;
 import Graph.ShortestPathContext;
 import Graph.ShortestPathSolver;
-import Interfaces.StylableNode;
-import UIControls.Buttons;
 
 public class VertexFX extends Circle implements StylableNode {
     private static boolean isDragging = false;
