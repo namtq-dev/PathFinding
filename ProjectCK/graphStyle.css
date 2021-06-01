@@ -22,7 +22,7 @@
 
 .edge {
     -fx-stroke-width: 4;
-    -fx-stroke: #FF6D66;  
+    -fx-stroke: #7593FF; /*#FF6D66;*/  
     /*-fx-stroke-dash-array: 2 5 2 5;*/
     -fx-fill: transparent;              /*important for curved edges */
     -fx-stroke-line-cap: round;
@@ -35,7 +35,7 @@
 
 .arrow {
     -fx-stroke-width: 4;
-    -fx-stroke: #FF6D66;  
+    -fx-stroke: #7593FF; /*#FF6D66;*/  
     -fx-opacity: 0.8;
 }
 
@@ -45,3 +45,4 @@
     -fx-stroke-type: inside;
     -fx-fill: yellowgreen;
 }
+

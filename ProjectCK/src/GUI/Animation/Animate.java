@@ -32,7 +32,6 @@ public class Animate {
     private static DoubleProperty speed = null;
 
     public static void playAnimation(GraphPanel graphview, ResetButton resetBtn, PauseButton pauseButton, ContinueButton continueButton, StopButton stopButton, Animation animation, List<Node> result) {
-        graphview.ReadyToSimulate();
         playAnimation(graphview, resetBtn, pauseButton, continueButton, stopButton, animation, result != null);
     }
 
@@ -158,7 +157,8 @@ public class Animate {
         FillTransition fill = new FillTransition();
         fill.setAutoReverse(true);
         fill.setDuration(Duration.seconds(speed.get()));
-        fill.setToValue(Color.rgb(255, 182, 179));
+        //fill.setToValue(Color.rgb(255, 182, 179));
+        fill.setToValue(Color.rgb(10, 49, 247));
         fill.setShape(vertex);
 
         return fill;
@@ -168,7 +168,8 @@ public class Animate {
         FillTransition fill = new FillTransition();
         fill.setAutoReverse(true);
         fill.setDuration(Duration.millis(200));
-        fill.setToValue(Color.rgb(177, 223, 247));
+        //fill.setToValue(Color.rgb(177, 223, 247));     
+        fill.setToValue(Color.rgb(87, 115, 255));
         fill.setShape(vertex);
 
         return fill;
@@ -178,7 +179,8 @@ public class Animate {
         FillTransition fill = new FillTransition();
         fill.setAutoReverse(true);
         fill.setDuration(Duration.seconds(speed.get()));
-        fill.setToValue(Color.rgb(93, 187, 238));
+        //fill.setToValue(Color.rgb(93, 187, 238));
+        fill.setToValue(Color.rgb(16, 196, 76));
         fill.setShape(vertex);
         fill.setOnFinished(evt -> {
             vertex.getValueLabel().setText(String.valueOf(value));
@@ -191,7 +193,8 @@ public class Animate {
         FillTransition fill = new FillTransition();
         fill.setAutoReverse(true);
         fill.setDuration(Duration.seconds(speed.get()));
-        fill.setToValue(Color.rgb(26, 117, 255));
+        //fill.setToValue(Color.rgb(26, 117, 255));
+        fill.setToValue(Color.rgb(239, 247, 10));
         fill.setShape(vertex);
 
         return fill;
@@ -201,7 +204,8 @@ public class Animate {
         FillTransition fill = new FillTransition();
         fill.setAutoReverse(true);
         fill.setDuration(Duration.seconds(speed.get()));
-        fill.setToValue(Color.rgb(255, 194, 179));
+        //fill.setToValue(Color.rgb(255, 194, 179));
+        fill.setToValue(Color.rgb(239, 247, 10));
         fill.setShape(vertex);
 
         return fill;
@@ -221,7 +225,8 @@ public class Animate {
         StrokeTransition stroke = new StrokeTransition();
         stroke.setAutoReverse(true);
         stroke.setDuration(Duration.seconds(speed.get()));
-        stroke.setToValue(Color.rgb(0, 179, 60));
+        //stroke.setToValue(Color.rgb(0, 179, 60));
+        stroke.setToValue(Color.rgb(16, 196, 76));
         stroke.setShape(edge);
 
         return stroke;
@@ -241,7 +246,8 @@ public class Animate {
         StrokeTransition stroke = new StrokeTransition();
         stroke.setAutoReverse(true);
         stroke.setDuration(Duration.seconds(speed.get()/5));
-        stroke.setToValue(Color.rgb(0, 179, 60));
+        //stroke.setToValue(Color.rgb(0, 179, 60));
+        stroke.setToValue(Color.rgb(16, 196, 76));
         stroke.setShape(edge.getAttachedArrow());
 
         return stroke;
@@ -261,7 +267,8 @@ public class Animate {
         StrokeTransition stroke = new StrokeTransition();
         stroke.setAutoReverse(true);
         stroke.setDuration(Duration.millis(200));
-        stroke.setToValue(Color.rgb(255, 109, 102));
+        //stroke.setToValue(Color.rgb(255, 109, 102));
+        stroke.setToValue(Color.rgb(117, 147, 255));
         stroke.setShape(edgeLine);
 
         return stroke;
@@ -271,7 +278,8 @@ public class Animate {
         StrokeTransition stroke = new StrokeTransition();
         stroke.setAutoReverse(true);
         stroke.setDuration(Duration.millis(200));
-        stroke.setToValue(Color.rgb(255, 109, 102));
+        //stroke.setToValue(Color.rgb(255, 109, 102));
+        stroke.setToValue(Color.rgb(117, 147, 255));
         stroke.setShape(edgeLine.getAttachedArrow());
 
         return stroke;
