@@ -38,9 +38,16 @@ public class Animate {
     public static void playAnimation(GraphPanel graphview, ResetButton resetBtn, PauseButton pauseButton, ContinueButton continueButton, StopButton stopButton, Animation animation, boolean isShortestPathFound) {
         graphview.setDisable(true);
         
-        String message1;
-        if (isShortestPathFound) message1 = "Found shortest path !";
-        else message1 = "Cannot find shortest path !";
+        String message;
+        String header;
+        if (isShortestPathFound) {
+            header = "SUCCESS";
+            message = "Shortest path found!";
+        }
+        else {
+            header = "FAILED";
+            message = "Can not find shortest path!";
+        }
         
         animation.setOnFinished(evt -> {
             resetBtn.setVisible(true);
@@ -49,8 +56,8 @@ public class Animate {
             stopButton.setVisible(false);
             Alert alert = new Alert(isShortestPathFound ? AlertType.INFORMATION : AlertType.WARNING);
             alert.setTitle("Result");
-            alert.setHeaderText("Results :");
-            alert.setContentText(message1);
+            alert.setHeaderText(header);
+            alert.setContentText(message);
             Platform.runLater(alert::showAndWait);
         });
 
