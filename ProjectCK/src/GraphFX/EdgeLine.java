@@ -53,7 +53,7 @@ public class EdgeLine extends Line implements EdgeBase, StylableNode, LabelAttac
         //To
         this.endXProperty().bind(toVertex.centerXProperty().subtract(cos.multiply(toVertex.getRadius())));
         this.endYProperty().bind(toVertex.centerYProperty().subtract(sin.multiply(toVertex.getRadius())));
-        attachLabel(new LabelNode(String.valueOf(weight)));
+        attachLabel(new LabelNode(String.valueOf(this.weight)));
         attachArrow(new Arrow(7));
         setupDeleteOption();
 
