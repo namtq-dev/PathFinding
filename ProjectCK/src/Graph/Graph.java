@@ -63,17 +63,31 @@ public class Graph {
         if (allNodes.remove(node)) {
             Set<Edge> allEdgesClone = new HashSet<>();
             allEdgesClone.addAll(allEdges);
-            for (Edge edge : allEdgesClone) {
+            for (Edge edge : allEdgesClone)
                 if(edge.getStartNode().getId() == node.getId() || edge.getEndNode().getId() == node.getId())
                     allEdges.remove(edge);
-            }
+            hasNegativeWeight = false;
+            for (Edge edge : allEdges)
+                if(edge.getWeight()<0) {
+                    hasNegativeWeight = true;
+                    break;
+                }
             return true;
         }
         return false;
     }
     
     public boolean removeEdge(Edge edge){
-        return allEdges.remove(edge);
+        if(allEdges.remove(edge)) {
+            hasNegativeWeight = false;
+            for (Edge e : allEdges)
+                if(e.getWeight()<0) {
+                    hasNegativeWeight = true;
+                    break;
+                }
+            return true;
+        }
+        return false;
     }
     
 }
