@@ -1,0 +1,12 @@
+.big-check-box > .box {
+    -fx-padding: 5px 5px 7px 7px ;
+}
+.big-check-box > .box > .mark {
+    -fx-padding: 10px 10px 14px 14px; 
+}
+
+.big-check-box {
+    
+    -fx-font: bold 14pt "Times New Roman";
+    -fx-text-fill: #cc00cc;
+}

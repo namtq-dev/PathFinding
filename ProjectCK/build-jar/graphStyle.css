@@ -1,0 +1,48 @@
+.graph {
+    -fx-background-color: #ffffff;    
+}
+
+.vertex {
+    -fx-stroke-width: 3;
+    -fx-stroke: #61B5F1;
+    -fx-stroke-type: inside;
+    -fx-fill: #B1DFF7;
+}
+
+.vertex-hovering {
+    -fx-stroke-width: 3;
+    -fx-stroke: #2297eb;
+    -fx-stroke-type: inside;
+    -fx-fill: #7ac8f3;
+}
+
+.vertex-label {
+    -fx-font: bold 12pt "sans-serif";
+}
+
+.edge {
+    -fx-stroke-width: 4;
+    -fx-stroke: #7593FF; /*#FF6D66;*/  
+    /*-fx-stroke-dash-array: 2 5 2 5;*/
+    -fx-fill: transparent;              /*important for curved edges */
+    -fx-stroke-line-cap: round;
+    -fx-opacity: 0.8;
+}
+
+.edge-label {
+    -fx-font: normal 12pt "sans-serif";
+}
+
+.arrow {
+    -fx-stroke-width: 4;
+    -fx-stroke: #7593FF; /*#FF6D66;*/  
+    -fx-opacity: 0.8;
+}
+
+.myCustomVertex {
+    -fx-stroke-width: 5;
+    -fx-stroke: green;
+    -fx-stroke-type: inside;
+    -fx-fill: yellowgreen;
+}
+

@@ -17,6 +17,7 @@ import GUI.Animation.Animate;
 import GUI.Containers.GraphPanel;
 import GUI.Interfaces.StylableNode;
 import GUI.UIControls.Buttons;
+import GUI.UIControls.CheckBoxs;
 import Graph.AStarAlgorithm;
 import Graph.BellmanFordAlgorithm;
 import Graph.DijkstraAlgorithm;
@@ -115,9 +116,13 @@ public class VertexFX extends Circle implements StylableNode {
                 shortestPathContext.setSolver(new DijkstraAlgorithm());
                 ShortestPathSolver kq = shortestPathContext.solve(p.getGraph(), this.getNode(), currVertex.getNode());
 
-                SequentialTransition animation = Animate.makeAnimation(kq.getSteps(), kq.getResult());
-                Animate.bindControlButtons(animation, p, Buttons.getBindPauseButton(), Buttons.getBindContinueButton(), Buttons.getBindStopButton());
-                Animate.playAnimation(p, Buttons.getBindResetButton(), Buttons.getBindPauseButton(), Buttons.getBindContinueButton(), Buttons.getBindStopButton(), animation, kq.getResult());
+                if (CheckBoxs.getBindAutoRunCheckbox().isChecking()) {
+                    SequentialTransition animation = Animate.makeAnimation(kq.getSteps(), kq.getResult());
+                    Animate.bindControlButtons(animation, p, Buttons.getBindPauseButton(), Buttons.getBindContinueButton(), Buttons.getBindStopButton());
+                    Animate.playAnimation(p, Buttons.getBindResetButton(), Buttons.getBindPauseButton(), Buttons.getBindContinueButton(), Buttons.getBindStopButton(), animation, kq.getResult());
+                } else {
+                    Animate.setReadyAndPlay_StepByStep(p, Buttons.getBindResetButton(), Buttons.getBindContinueButton(), kq.getSteps(), kq.getResult());
+                }
             }
         });
 
@@ -125,9 +130,13 @@ public class VertexFX extends Circle implements StylableNode {
             shortestPathContext.setSolver(new BellmanFordAlgorithm());
             ShortestPathSolver kq = shortestPathContext.solve(p.getGraph(), this.getNode(), currVertex.getNode());
 
-            SequentialTransition animation = Animate.makeAnimation(kq.getSteps(), kq.getResult());
-            Animate.bindControlButtons(animation, p, Buttons.getBindPauseButton(), Buttons.getBindContinueButton(), Buttons.getBindStopButton());
-            Animate.playAnimation(p, Buttons.getBindResetButton(), Buttons.getBindPauseButton(), Buttons.getBindContinueButton(), Buttons.getBindStopButton(), animation, kq.getResult());
+            if (CheckBoxs.getBindAutoRunCheckbox().isChecking()) {
+                SequentialTransition animation = Animate.makeAnimation(kq.getSteps(), kq.getResult());
+                Animate.bindControlButtons(animation, p, Buttons.getBindPauseButton(), Buttons.getBindContinueButton(), Buttons.getBindStopButton());
+                Animate.playAnimation(p, Buttons.getBindResetButton(), Buttons.getBindPauseButton(), Buttons.getBindContinueButton(), Buttons.getBindStopButton(), animation, kq.getResult());
+            } else {
+                Animate.setReadyAndPlay_StepByStep(p, Buttons.getBindResetButton(), Buttons.getBindContinueButton(), kq.getSteps(), kq.getResult());
+            }
         });
 
         run_AStar.setOnAction(evt -> {
@@ -142,9 +151,13 @@ public class VertexFX extends Circle implements StylableNode {
                 shortestPathContext.setSolver(new AStarAlgorithm());
                 ShortestPathSolver kq = shortestPathContext.solve(p.getGraph(), this.getNode(), currVertex.getNode());
 
-                SequentialTransition animation = Animate.makeAnimation(kq.getSteps(), kq.getResult());
-                Animate.bindControlButtons(animation, p, Buttons.getBindPauseButton(), Buttons.getBindContinueButton(), Buttons.getBindStopButton());
-                Animate.playAnimation(p, Buttons.getBindResetButton(), Buttons.getBindPauseButton(), Buttons.getBindContinueButton(), Buttons.getBindStopButton(), animation, kq.getResult());
+                if (CheckBoxs.getBindAutoRunCheckbox().isChecking()) {
+                    SequentialTransition animation = Animate.makeAnimation(kq.getSteps(), kq.getResult());
+                    Animate.bindControlButtons(animation, p, Buttons.getBindPauseButton(), Buttons.getBindContinueButton(), Buttons.getBindStopButton());
+                    Animate.playAnimation(p, Buttons.getBindResetButton(), Buttons.getBindPauseButton(), Buttons.getBindContinueButton(), Buttons.getBindStopButton(), animation, kq.getResult());
+                } else {
+                    Animate.setReadyAndPlay_StepByStep(p, Buttons.getBindResetButton(), Buttons.getBindContinueButton(), kq.getSteps(), kq.getResult());
+                }
             }
         });
 

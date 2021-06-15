@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 import GUI.GraphFX.EdgeLine;
 import GUI.GraphFX.VertexFX;
 import GUI.GraphFX.VirtualVertexFX;
+import GUI.UIControls.CheckBoxs;
 import Graph.Graph;
 
 import java.io.File;
@@ -27,6 +28,8 @@ import java.awt.MouseInfo;
 public class GraphPanel extends Pane{
     public static boolean contextMenuShowable = true;
 
+    private final ContextMenu contextMenu;
+
     private List<EdgeLine> edges;
     private List<VertexFX> vertices; 
     private Graph graph;
@@ -42,6 +45,8 @@ public class GraphPanel extends Pane{
         setMinSize(width, height);
         setMaxSize(width, height);
         loadStylesheet(null);
+
+        contextMenu = new ContextMenu();
         setupContextMenu();
     }
 
@@ -63,8 +68,6 @@ public class GraphPanel extends Pane{
     }
 
     private void setupContextMenu() {
-        final ContextMenu contextMenu = new ContextMenu();
-        
         contextMenu.setAutoHide(true);
 
         MenuItem newVertex = new MenuItem("New node");
@@ -72,7 +75,7 @@ public class GraphPanel extends Pane{
             int x = MouseInfo.getPointerInfo().getLocation().x - 50;
             int y = MouseInfo.getPointerInfo().getLocation().y - 50;
             dialog.setTitle("Input label");
-            dialog.setHeaderText("what label do you want to attach to this Node?");
+            dialog.setHeaderText("What label do you want to attach to this Node?");
             dialog.setContentText("Please enter the label here :");
             dialog.getEditor().clear();
 
@@ -103,6 +106,10 @@ public class GraphPanel extends Pane{
 
             }
         });
+    }
+
+    public ContextMenu getContextMenu() {
+        return contextMenu;
     }
 
     public void addVertex(VertexFX v) {
@@ -164,6 +171,7 @@ public class GraphPanel extends Pane{
     }
 
     public void Reset() {
+        CheckBoxs.getBindAutoRunCheckbox().setVisible(true);
         for (int i = 0; i < this.vertices.size(); i++) {
             this.vertices.get(i).setStyleClass("vertex");
             this.vertices.get(i).getValueLabel().setText("");
@@ -175,6 +183,7 @@ public class GraphPanel extends Pane{
     }
 
     public void ReadyToSimulate() {
+        CheckBoxs.getBindAutoRunCheckbox().setVisible(false);
         for (int i = 0; i < this.vertices.size(); i++) {
             this.vertices.get(i).getValueLabel().setText("∞");
         }

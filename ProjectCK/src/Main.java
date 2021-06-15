@@ -6,7 +6,9 @@ import javafx.stage.Stage;
 import GUI.Containers.GraphPanel;
 import GUI.Containers.GraphScene;
 import GUI.Containers.SpeedControlPane;
+import GUI.UIControls.AutoRunCheckBox;
 import GUI.UIControls.Buttons;
+import GUI.UIControls.CheckBoxs;
 import GUI.UIControls.ContinueButton;
 import GUI.UIControls.PauseButton;
 import GUI.UIControls.ResetButton;
@@ -23,8 +25,10 @@ public class Main extends Application{
         PauseButton pauseButton = new PauseButton(75, 5);
         ContinueButton continueButton = new ContinueButton(145, 5);
         StopButton stopButton = new StopButton(215, 5);
-        root.getChildren().addAll(resetButton, pauseButton, continueButton, stopButton);
+        AutoRunCheckBox autoRunCheckBox = new AutoRunCheckBox(15, 20);
+        root.getChildren().addAll(resetButton, pauseButton, continueButton, stopButton, autoRunCheckBox);
         Buttons.bindButtons(resetButton, pauseButton, continueButton, stopButton);
+        CheckBoxs.bindCheckBoxs(autoRunCheckBox);
 
         SpeedControlPane speedControlPane = new SpeedControlPane(20, 75);
         root.getChildren().addAll(speedControlPane, speedControlPane.getAttachedLabel());

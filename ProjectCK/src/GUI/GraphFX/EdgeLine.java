@@ -59,6 +59,8 @@ public class EdgeLine extends Line implements EdgeBase, StylableNode, LabelAttac
         setupDeleteOption();
 
         this.setOnContextMenuRequested(evt -> {
+            if (p == null) p = (GraphPanel) getParent();
+            p.getContextMenu().hide();              // If not do this, contextMenu of the graphpanel will be displayed along with deleteOption
             deleteOption.show(this, MouseInfo.getPointerInfo().getLocation().x, MouseInfo.getPointerInfo().getLocation().y);
         });
     }

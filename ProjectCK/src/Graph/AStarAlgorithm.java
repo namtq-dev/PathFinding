@@ -17,8 +17,7 @@ public class AStarAlgorithm extends ShortestPathSolver {
         Set<Node> visitedNodes = new HashSet<>();
     
         // Add source to queue
-         AStarNodeWrapper sourceWrapper = new  AStarNodeWrapper(source, 0, null, 
-                                                                                                   calculateHeuristicValue(source, target));
+         AStarNodeWrapper sourceWrapper = new  AStarNodeWrapper(source, 0, null, calculateHeuristicValue(source, target));
         nodeWrappers.put(source, sourceWrapper);
         queue.add(sourceWrapper);
         

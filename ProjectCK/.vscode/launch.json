@@ -6,21 +6,6 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Launch Main",
-            "request": "launch",
-            "mainClass": "Graph.com.mycompany.projectoop.Main",
-            "projectName": "ProjectCK_850d90c5"
-        },
-        {
-            "type": "java",
-            "name": "Launch TestAnimation",
-            "request": "launch",
-            "mainClass": "TestAnimation",
-            "vmArgs": "--module-path D:/JavaFX/openjfx-16_windows-x64_bin-sdk/javafx-sdk-16/lib --add-modules javafx.controls,javafx.fxml",
-            "projectName": "ProjectCK_850d90c5"
-        },
-        {
-            "type": "java",
             "name": "Launch Current File",
             "request": "launch",
             "mainClass": "${file}"
@@ -31,22 +16,7 @@
             "request": "launch",
             "mainClass": "Main",
             "vmArgs": "--module-path D:/JavaFX/openjfx-16_windows-x64_bin-sdk/javafx-sdk-16/lib --add-modules javafx.controls,javafx.fxml",
-            "projectName": "ProjectCK_850d90c5"
-        },
-        {
-            "type": "java",
-            "name": "Launch ProjectCK",
-            "request": "launch",
-            "mainClass": "projectck.ProjectCK",
-            "projectName": "ProjectCK_850d90c5"
-        },
-        {
-            "type": "java",
-            "name": "Launch test",
-            "request": "launch",
-            "mainClass": "test",
-            "vmArgs": "--module-path D:/JavaFX/openjfx-16_windows-x64_bin-sdk/javafx-sdk-16/lib --add-modules javafx.controls,javafx.fxml",
-            "projectName": "ProjectCK_850d90c5"
+            "projectName": "ProjectCK_fd62bc6f"
         }
     ]
 }

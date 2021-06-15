@@ -30,10 +30,24 @@ import javafx.util.Duration;
 public class Animate {
     private static boolean isInited = false;
     private static DoubleProperty speed = null;
+    private static int stepIndex;
+    private static int stepsSize;
 
     public static void playAnimation(GraphPanel graphview, ResetButton resetBtn, PauseButton pauseButton, ContinueButton continueButton, StopButton stopButton, Animation animation, List<Node> result) {
         graphview.ReadyToSimulate();
         playAnimation(graphview, resetBtn, pauseButton, continueButton, stopButton, animation, result != null);
+    }
+
+    public static void setReadyAndPlay_StepByStep(GraphPanel graphview, ResetButton resetButton, ContinueButton continueButton, List<Step> steps, List<Node> result) {
+        if (isInited) {
+            graphview.ReadyToSimulate();
+            graphview.setDisable(true);
+            bindControlButtons_StepByStep(steps, result, graphview, resetButton, continueButton, result != null);
+        } else {
+            System.out.println("Class Animate has not been setup yet, automatically setup by default.");
+            setupAnimation();
+            setReadyAndPlay_StepByStep(graphview, resetButton, continueButton, steps, result);
+        }
     }
 
     public static void playAnimation(GraphPanel graphview, ResetButton resetBtn, PauseButton pauseButton, ContinueButton continueButton, StopButton stopButton, Animation animation, boolean isShortestPathFound) {
@@ -80,7 +94,7 @@ public class Animate {
 
             return listAnimation;
         } else {
-            System.out.println("Animations has not been setup yet, automatically setup by default.");
+            System.out.println("Class Animate has not been setup yet, automatically setup by default.");
             setupAnimation();
             return makeAnimation(steps, result);
         }
@@ -90,18 +104,23 @@ public class Animate {
         SequentialTransition listAnimation = new SequentialTransition();
         setAnimateBeingVisited(listAnimation, steps.get(0).getCurrentNode().getNodeFX(), 0f);
         for (int i = 0; i < steps.size(); i++) {
-            setAnimateChecking(listAnimation, steps.get(i).getCurrentNode().getNodeFX());
-            for (int j = 0; j < steps.get(i).getCheckedEdges().size(); j++) {
-                setAnimateBeingVisited(listAnimation, steps.get(i).getCheckedEdges().get(j).getEdgeFX());
-                setAnimateBeingVisited(listAnimation, steps.get(i).getCheckedEdges().get(j).getEdgeFX().endVertex, steps.get(i).getNewCheckedCostValues().get(j));
-            }
+            listAnimation.getChildren().add(makeAnimationStep(steps.get(i)));
+        }
+        return listAnimation;
+    }
 
-            if (steps.get(i).isCurrentNodeMarked()) setAnimateVisited(listAnimation, steps.get(i).getCurrentNode().getNodeFX());
-            else {
-                resetCheckedEgdes(listAnimation, steps.get(i).getCheckedEdges());
-                resetCheckedNode(listAnimation, steps.get(i));
-                //setAnimateChecked(listAnimation, steps.get(i).getCurrentNode().getNodeFX());
-            }
+    public static SequentialTransition makeAnimationStep(Step step) {                       // Making animations for step
+        SequentialTransition listAnimation = new SequentialTransition();
+        setAnimateChecking(listAnimation, step.getCurrentNode().getNodeFX());
+        for (int j = 0; j < step.getCheckedEdges().size(); j++) {
+            setAnimateBeingVisited(listAnimation, step.getCheckedEdges().get(j).getEdgeFX());
+            setAnimateBeingVisited(listAnimation, step.getCheckedEdges().get(j).getEdgeFX().endVertex, step.getNewCheckedCostValues().get(j));
+        }
+
+        if (step.isCurrentNodeMarked()) setAnimateVisited(listAnimation, step.getCurrentNode().getNodeFX());
+        else {
+            resetCheckedEgdes(listAnimation, step.getCheckedEdges());
+            resetCheckedNode(listAnimation, step);
         }
         return listAnimation;
     }
@@ -340,6 +359,58 @@ public class Animate {
                 animation.stop();
                 graphview.Reset();
                 graphview.setDisable(false);
+            }
+        });
+    }
+
+    private static void bindControlButtons_StepByStep(List<Step> steps, List<Node> result, GraphPanel graphview, ResetButton resetButton, ContinueButton continueButton, boolean isShortestPathFound) {
+        resetButton.setVisible(true);
+        continueButton.setVisible(true);
+        Animate.stepsSize = steps.size();
+        Animate.stepIndex = 0;
+        String header;
+        String message;
+        if (isShortestPathFound) {
+            header = "SUCCESS";
+            message = "Shortest path found!";
+        }
+        else {
+            header = "FAILED";
+            message = "Can not find shortest path!";
+        }
+
+        resetButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                resetButton.setVisible(false);
+                continueButton.setVisible(false);
+
+                graphview.Reset();
+                graphview.setDisable(false);
+            }
+        });
+
+        continueButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if (Animate.stepIndex >= Animate.stepsSize) {
+                    Animation tmp = makeAnimationResult(result);
+                    continueButton.setVisible(false);
+
+                    tmp.setOnFinished(evt -> {
+                        continueButton.setVisible(false);
+                        Alert alert = new Alert(isShortestPathFound ? AlertType.INFORMATION : AlertType.WARNING);
+                        alert.setTitle("Result");
+                        alert.setHeaderText(header);
+                        alert.setContentText(message);
+                        Platform.runLater(alert::showAndWait);
+                    });
+
+                    tmp.play();
+                } else {
+                    Animation tmp = makeAnimationStep(steps.get(Animate.stepIndex++));
+                    tmp.play();
+                }
             }
         });
     }
